@@ -1,10 +1,21 @@
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      <h1 className="text-5xl">Fly</h1>
-      <Link href="/home">Get Started</Link>
+    <div className="flex flex-col items-center justify-center h-screen p-4">
+      <div>
+        <h1 className="text-4xl font-bold text-center">Fly</h1>
+        <p className="py-2">Your own Drone Inspection Software powered by AI</p>
+      </div>
+
+      <div className="p-">
+        <Button>
+          <Link href={"/sign-in"}>
+            Get Started
+          </Link>
+        </Button>
+      </div>
     </div>
   );
 }
