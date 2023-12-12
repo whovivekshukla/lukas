@@ -22,9 +22,9 @@ model User {
 }
 
 enum Status {
-  Pending
-  InProgress
-  Completed
+  pending
+  inprogress
+  completed
 }
 
 model Mission {
@@ -36,7 +36,7 @@ model Mission {
   user   User   @relation(fields: [userId], references: [id])
 
   name      String
-  status    Status @default(Pending)
+  status    Status @default(pending)
   waypoints Json
   altitude  Int
   speed     Int

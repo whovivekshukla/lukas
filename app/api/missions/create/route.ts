@@ -2,13 +2,17 @@ import { getUserFromClerkId } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { NextResponse } from "next/server";
 
-export const GET = async (request: Request) => {
+export const POST = async (request: Request) => {
   try {
     const user = await getUserFromClerkId();
-
-    const mission = await prisma.mission.findMany({
-      where: {
+    const missionData = await request.json();
+    const parsedMissionData = JSON.parse(missionData);
+    console.log(parsedMissionData.status);
+    
+    const mission = await prisma.mission.create({
+      data: {
         userId: user.id,
+        ...parsedMissionData,
       },
     });
 

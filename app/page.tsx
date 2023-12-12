@@ -1,7 +1,10 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
+import { auth } from "@clerk/nextjs";
 
-export default function Home() {
+export default async function Home() {
+  const { userId } = await auth();
+  let href = userId ? "/home" : "/new-user";
   return (
     <div className="flex flex-col items-center justify-center h-screen p-4">
       <div>
@@ -11,9 +14,9 @@ export default function Home() {
         </p>
       </div>
 
-      <div className="p-">
+      <div className="p-2">
         <Button>
-          <Link href={"/sign-in"}>Get Started</Link>
+          <Link href={href}>Get Started</Link>
         </Button>
       </div>
     </div>
