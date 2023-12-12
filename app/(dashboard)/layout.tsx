@@ -47,12 +47,10 @@ const DashboardLayout = ({ children }) => {
         </div>
         <div className="navbar-end">
           <Link href="/missions">
-            <button className="btn btn-ghost btn-circle">
-                Missions
-            </button>
+            <button className="btn btn-ghost">Missions</button>
           </Link>
           <button className="btn btn-ghost btn-circle">
-            <UserButton />
+            <UserButton afterSignOutUrl="/" />
           </button>
         </div>
       </div>
