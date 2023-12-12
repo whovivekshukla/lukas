@@ -6,13 +6,11 @@ export const POST = async (request: Request) => {
   try {
     const user = await getUserFromClerkId();
     const missionData = await request.json();
-    const parsedMissionData = JSON.parse(missionData);
-    console.log(parsedMissionData.status);
     
     const mission = await prisma.mission.create({
       data: {
         userId: user.id,
-        ...parsedMissionData,
+        ...missionData,
       },
     });
 

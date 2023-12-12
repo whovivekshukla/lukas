@@ -76,6 +76,9 @@ module.exports = {
         sans: ["var(--font-sans)", ...fontFamily.sans],
       },
     },
+    daisyui: {
+      themes: ["light", "dark", "cupcake"],
+    },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [require("tailwindcss-animate"), require("daisyui")],
 };
