@@ -9,7 +9,8 @@ export const GET = async (request: Request) => {
     const mission = await prisma.mission.findMany({
       where: {
         userId: user.id,
-      },
+      }, 
+      
     });
 
     return NextResponse.json(mission);
