@@ -1,6 +1,8 @@
 "use client";
+
 import { useEffect, useState } from "react";
 import { getAllMissions } from "@/lib/api";
+import Link from "next/link";
 
 const MissionCard = ({ mission }) => {
   return (
@@ -45,7 +47,13 @@ const Missions = () => {
 
   return (
     <div className="container mx-auto mt-8">
-      <h1 className="text-3xl font-bold mb-4">Missions</h1>
+      <div className="flex flex-row justify-between items-center">
+        <h1 className="text-3xl font-bold mb-4 flex-grow">Missions</h1>
+        <Link href={"/missions/create"}>
+          <button className="btn btn-primary">Create Mission</button>
+        </Link>
+      </div>
+
       <div>
         {missions ? (
           missions.map((mission, index) => (
