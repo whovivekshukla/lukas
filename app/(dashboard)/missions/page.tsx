@@ -10,9 +10,7 @@ const MissionCard = ({ mission }) => {
       {" "}
       <p className="text-xl font-bold mb-2">{mission.name}</p>{" "}
       <p className="text-gray-600">{mission.status}</p>{" "}
-      {/* <p className="text-gray-600">
-        {mission.waypoints.map((waypoint) => ({ waypoint }))}
-      </p>{" "} */}
+      <p className="text-gray-600">{JSON.stringify(mission.waypoints)}</p>
       <p className="text-gray-600">{mission.altitude}</p>{" "}
       <p className="text-gray-600">{mission.speed}</p>{" "}
       <div className="mt-4 flex items-center justify-between">
@@ -49,7 +47,7 @@ const Missions = () => {
 
   return (
     <div className="container mx-auto mt-8">
-      <div className="flex flex-row justify-between items-center">
+      <div className="flex flex-row justify-between items-center mb-8">
         <h1 className="text-3xl font-bold mb-4 flex-grow">Missions</h1>
         <Link href={"/missions/create"}>
           <button className="btn btn-primary">Create Mission</button>
