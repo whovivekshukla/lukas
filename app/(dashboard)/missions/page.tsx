@@ -29,7 +29,8 @@ const Missions = () => {
     const fetchData = async () => {
       try {
         const res = await getAllMissions();
-
+        console.log(res);
+        
         // Check if the response is an array
         if (Array.isArray(res)) {
           setMissions(res); // Set the response data in the state
