@@ -16,7 +16,7 @@ const CreateMissionsPage = async () => {
       const mission = {
         name: e.target.name.value,
         status: e.target.status.value,
-        waypoints: e.target.waypoints.value,
+        waypoints: JSON.parse(e.target.waypoints.value),
         altitude: parseInt(e.target.altitude.value),
         speed: parseInt(e.target.speed.value),
       };
