@@ -1,7 +1,11 @@
-const ButtonComponent = ({ label }) => {
+const ButtonComponent = ({ label, disabled }) => {
   return (
     <div>
-      <button className="btn btn-active btn-primary" type="submit">
+      <button
+        className="btn btn-active btn-primary"
+        disabled={disabled}
+        type="submit"
+      >
         {label}
       </button>
     </div>

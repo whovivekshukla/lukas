@@ -4,6 +4,7 @@ import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { cn } from "@/lib/utils";
 import { fontSans } from "@/lib/font";
+import { ToastContainer } from "react-toastify";
 
 export const metadata: Metadata = {
   title: "Fly",
@@ -25,6 +26,7 @@ export default function RootLayout({
           )}
         >
           {children}
+          <ToastContainer />
         </body>
       </html>
     </ClerkProvider>

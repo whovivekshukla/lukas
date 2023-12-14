@@ -2,7 +2,6 @@ const createURL = (path) => {
   return window.location.origin + path;
 };
 
-
 export const createMission = async ({ missionData }) => {
   try {
     const res = await fetch(
@@ -26,6 +25,58 @@ export const getAllMissions = async () => {
     const res = await fetch(
       new Request(createURL("/api/missions"), {
         method: "GET",
+      })
+    );
+
+    if (res.ok) {
+      const data = await res.json();
+      return data;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getSingleMission = async (missionId) => {
+  try {
+    const res = await fetch(
+      new Request(createURL(`/api/missions/${missionId}`), {
+        method: "GET",
+      })
+    );
+
+    if (res.ok) {
+      const data = await res.json();
+      return data;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const updateMission = async ({ missionData }) => {
+  try {
+    const res = await fetch(
+      new Request(createURL(`/api/missions/${missionData.id}`), {
+        method: "PATCH",
+        body: JSON.stringify(missionData),
+      })
+    );
+
+    if (res.ok) {
+      const data = await res.json();
+      return data;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const deleteMission = async (missionId) => {
+  try {
+    const res = await fetch(
+      new Request(createURL(`/api/missions/${missionId}`), {
+        method: "DELETE",
       })
     );
 

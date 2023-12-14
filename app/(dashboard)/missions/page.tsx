@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getAllMissions } from "@/lib/api";
+import { getAllMissions, deleteMission } from "@/lib/api"; // Import the deleteMission function
 import Link from "next/link";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import MissionCard from "@/components/MissionCardComponent";
 
@@ -13,21 +15,32 @@ const Missions = () => {
     const fetchData = async () => {
       try {
         const res = await getAllMissions();
-
-        // Check if the response is an array
         if (Array.isArray(res)) {
-          setMissions(res); // Set the response data in the state
+          setMissions(res);
         } else {
           console.error("Invalid response format. Expected an array:", res);
         }
       } catch (error) {
         console.error("Error fetching missions:", error);
-        // Handle error, you might want to set some state to indicate the error in the component
       }
     };
 
-    fetchData(); // Call the function to initiate data fetching
+    fetchData();
   }, []);
+
+  const handleDeleteMission = async (missionId) => {
+    try {
+      await deleteMission(missionId);
+      toast.error("Mission deleted successfully", {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+      setMissions((prevMissions) =>
+        prevMissions.filter((mission) => mission.id !== missionId)
+      );
+    } catch (error) {
+      console.error("Error deleting mission:", error);
+    }
+  };
 
   return (
     <div className="container mx-auto mt-8">
@@ -41,7 +54,11 @@ const Missions = () => {
       <div>
         {missions ? (
           missions.map((mission, index) => (
-            <MissionCard key={index} mission={mission} />
+            <MissionCard
+              key={index}
+              mission={mission}
+              onDelete={() => handleDeleteMission(mission.id)}
+            />
           ))
         ) : (
           <p className="text-gray-600">Loading missions...</p>
