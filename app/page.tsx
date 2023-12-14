@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { auth } from "@clerk/nextjs";
 
+export const dynamic = "force-dynamic";
+
 export default async function Home() {
   const { userId } = await auth();
   let href = userId ? "/home" : "/new-user";

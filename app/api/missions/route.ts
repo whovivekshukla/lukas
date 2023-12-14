@@ -14,6 +14,6 @@ export const GET = async () => {
     return NextResponse.json(mission);
   } catch (error) {
     console.error("Error Finding mission:", error);
-    return NextResponse.json({ msg: "Mission Not Found" });
+    return NextResponse.json({ msg: "Something went wrong" });
   }
 };
