@@ -10,5 +10,5 @@ export const GET = async () => {
     },
   });
 
-  return NextResponse.json({ missions });
+  return NextResponse.json(missions );
 };
