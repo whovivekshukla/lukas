@@ -1,6 +1,5 @@
 import { getUserFromClerkId } from "@/lib/auth";
 import { prisma } from "@/lib/db";
-import { NextResponse } from "next/server";
 
 export const GET = async () => {
   try {
@@ -14,6 +13,6 @@ export const GET = async () => {
      return Response.json({ mission });
   } catch (error) {
     console.error("Can't get Mission:", error);
-    return NextResponse.json({ msg: "Something went wrong!" });
+    return Response.json({ msg: "Something went wrong!" });
   }
 };
