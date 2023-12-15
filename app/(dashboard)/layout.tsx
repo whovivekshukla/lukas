@@ -31,13 +31,14 @@ const DashboardLayout = ({ children }) => {
               className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
               <li>
-                <a>Homepage</a>
+                <Link href={"/home"}>
+                  <p>Home</p>
+                </Link>
               </li>
               <li>
-                <a>Portfolio</a>
-              </li>
-              <li>
-                <a>About</a>
+                <Link href={"/missions"}>
+                  <p>Missions</p>
+                </Link>
               </li>
             </ul>
           </div>
@@ -48,9 +49,9 @@ const DashboardLayout = ({ children }) => {
           </div>
         </div>
         <div className="navbar-end">
-          <Link href="/missions">
+          {/* <Link href="/missions">
             <button className="btn btn-ghost">Missions</button>
-          </Link>
+          </Link> */}
           <button className="btn btn-ghost btn-circle">
             <UserButton afterSignOutUrl="/" />
           </button>

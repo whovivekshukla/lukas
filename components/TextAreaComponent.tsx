@@ -9,7 +9,9 @@ const TextAreaComponent = ({ label, value, name }) => {
           name={name}
           className="textarea textarea-bordered h-24"
           placeholder={label}
-          defaultValue={value.map((item) => JSON.stringify(item, null, 2))}
+          defaultValue={`[${value
+            .map((item) => JSON.stringify(item, null, 2))
+            .join(",\n")}]`}
         ></textarea>
         <div className="label">
           <span className="label-text-alt">
