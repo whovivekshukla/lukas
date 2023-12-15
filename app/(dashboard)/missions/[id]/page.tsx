@@ -5,7 +5,6 @@ import InputComponent from "@/components/InputComponent";
 import SelectUpdateComponent from "@/components/SelectUpdateComponent";
 import TextAreaComponent from "@/components/TextAreaComponent";
 import { getSingleMission, updateMission } from "@/lib/api";
-import { MissionWayPointExample } from "@/lib/utils";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -13,6 +12,7 @@ import "react-toastify/dist/ReactToastify.css";
 const UpdateMissionsPage = ({ params }) => {
   const [missionData, setMissionData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [updateButtonLoading, setUpdateButtonLoading] = useState(false);
 
   const getData = async () => {
     try {
@@ -38,6 +38,7 @@ const UpdateMissionsPage = ({ params }) => {
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
+      setUpdateButtonLoading(true);
       const mission = {
         id: params.id,
         name: e.target.name.value,
@@ -48,7 +49,6 @@ const UpdateMissionsPage = ({ params }) => {
       };
 
       const res = await updateMission({ missionData: mission });
-      console.log(res.waypoints);
       if (res) {
         toast.success("Mission Updated Successfully", {
           position: toast.POSITION.BOTTOM_RIGHT,
@@ -61,6 +61,8 @@ const UpdateMissionsPage = ({ params }) => {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
       console.log(error);
+    } finally {
+      setUpdateButtonLoading(false);
     }
   };
 
@@ -106,7 +108,7 @@ const UpdateMissionsPage = ({ params }) => {
               name={"speed"}
             />
             <div className="mt-4">
-              <ButtonComponent label={"Update"} />
+              <ButtonComponent disabled={updateButtonLoading} label={"Update"} />
             </div>
           </form>
         </div>
