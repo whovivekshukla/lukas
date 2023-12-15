@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const customAxios = () => {
+const createAxiosInstance = () => {
   const instance = axios.create({
     baseURL: "https://dev.flytbase.com/ros/",
     headers: {
@@ -12,11 +12,11 @@ const customAxios = () => {
   return instance;
 };
 
-const axiosInstance = customAxios();
+const customAxios = createAxiosInstance();
 
 export const getNameSpace = async () => {
   try {
-    const response = await axiosInstance.get("get_global_namespace");
+    const response = await customAxios.get("get_global_namespace");
     console.log("API Response Data:", response.data);
     return response;
   } catch (error) {
@@ -26,7 +26,7 @@ export const getNameSpace = async () => {
 
 export const accessRequest = async () => {
   try {
-    const response = await axiosInstance.post(
+    const response = await customAxios.post(
       "flytos/navigation/access_request",
       {
         enable_access: true,
@@ -41,7 +41,7 @@ export const accessRequest = async () => {
 
 export const armDrone = async () => {
   try {
-    const response = await axiosInstance.get("flytos/navigation/arm");
+    const response = await customAxios.get("flytos/navigation/arm");
     console.log("API Response Data:", response.data);
     return response;
   } catch (error) {
@@ -51,7 +51,7 @@ export const armDrone = async () => {
 
 export const disarmDrone = async () => {
   try {
-    const response = await axiosInstance.get("flytos/navigation/disarm");
+    const response = await customAxios.get("flytos/navigation/disarm");
     console.log("API Response Data:", response.data);
     return response;
   } catch (error) {
@@ -61,7 +61,7 @@ export const disarmDrone = async () => {
 
 export const takeOff = async () => {
   try {
-    const response = await axiosInstance.post("flytos/navigation/take_off", {
+    const response = await customAxios.post("flytos/navigation/take_off", {
       takeoff_alt: 50,
     });
 
@@ -74,11 +74,48 @@ export const takeOff = async () => {
 
 export const land = async () => {
   try {
-    const response = await axiosInstance.get("flytos/navigation/land");
+    const response = await customAxios.get("flytos/navigation/land", {
+      data: {
+        async: true,
+      },
+    });
 
     console.log("API Response Data:", response.data);
     return response;
   } catch (error) {
     console.error("Error:", error);
+  }
+};
+
+export const positionHold = async () => {
+  try {
+    const response = await customAxios.get("flytos/navigation/position_hold");
+    console.log("API Response Data:", response.data);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const positionSetPoint = async ({
+  x,
+  y,
+  z,
+  yaw,
+  tolerance,
+  async,
+  relative,
+  yaw_valid,
+  body_frame,
+}) => {
+  try {
+    const response = await customAxios.post(
+      "https://dev.flytbase.com/ros/flytos/navigation/position_set",
+      { x, y, z, yaw, tolerance, async, relative, yaw_valid, body_frame }
+    );
+    console.log("API Response Data:", response.data);
+    return response;
+  } catch (error) {
+    console.log(error);
   }
 };
