@@ -18,7 +18,7 @@ export default async function Home() {
       <div className="p-2">
         <Link href={href}>
           {" "}
-          <button className="btn btn-neutral">Get Started</button>
+          <button className="btn btn-neutral text-white">Get Started</button>
         </Link>
       </div>
     </div>
