@@ -8,7 +8,11 @@ export const GET = async () => {
     where: {
       userId: user.id,
     },
+
+    orderBy: {
+      createdAt: "desc",
+    },
   });
 
-  return NextResponse.json(missions );
+  return NextResponse.json(missions);
 };

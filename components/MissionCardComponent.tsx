@@ -18,6 +18,8 @@ const MissionCard = ({ mission, onDelete }) => {
             day: "numeric",
             month: "short",
             year: "numeric",
+            hour: "numeric",
+            minute: "numeric",
           })}
         </span>
         <button className="text-blue-500 hover:underline" onClick={onDelete}>
