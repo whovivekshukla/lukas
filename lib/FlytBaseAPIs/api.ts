@@ -119,3 +119,93 @@ export const positionSetPoint = async ({
     console.log(error);
   }
 };
+
+export const setWayPoint = async (waypoints) => {
+  try {
+    const response = await customAxios.post(
+      "https://dev.flytbase.com/ros/flytos/navigation/waypoint_set",
+      {
+        waypoints: waypoints.map((waypoint) => ({
+          frame: waypoint.frame,
+          command: waypoint.command,
+          is_current: waypoint.is_current,
+          autocontinue: waypoint.autocontinue,
+          param1: waypoint.param1,
+          param2: waypoint.param2,
+          param3: waypoint.param3,
+          param4: waypoint.param4,
+          x_lat: waypoint.x_lat,
+          y_long: waypoint.y_long,
+          z_alt: waypoint.z_alt,
+        })),
+      }
+    );
+    console.log("API Response Data:", response.data);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const getWayPoint = async () => {
+  try {
+    const response = await customAxios.get(
+      "https://dev.flytbase.com/ros/flytos/navigation/waypoint_get"
+    );
+    console.log("API Response Data:", response.data);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const executeWayPoints = async () => {
+  try {
+    const response = await customAxios.get(
+      "https://dev.flytbase.com/ros/flytos/navigation/waypoint_execute"
+    );
+    console.log("API Response Data:", response.data);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const clearWayPoint = async () => {
+  try {
+    const response = await customAxios.post(
+      "https://dev.flytbase.com/ros/flytos/navigation/waypoint_clear"
+    );
+    console.log("API Response Data:", response.data);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const setCurrentWayPoint = async () => {
+  try {
+    const response = await customAxios.post(
+      "https://dev.flytbase.com/ros/flytos/navigation/waypoint_set_current",
+      {
+        wp_seq: 1,
+      }
+    );
+    console.log("API Response Data:", response.data);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const setRTL = async () => {
+  try {
+    const response = await customAxios.get(
+      "https://dev.flytbase.com/ros/flytos/navigation/rtl"
+    );
+    console.log("API Response Data:", response.data);
+    return response;
+  } catch (error) {
+    console.log(error);
+  }
+};

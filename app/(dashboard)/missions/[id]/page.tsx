@@ -8,8 +8,10 @@ import { getSingleMission, updateMission } from "@/lib/api";
 import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/navigation";
 
 const UpdateMissionsPage = ({ params }) => {
+  const router = useRouter();
   const [missionData, setMissionData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [updateButtonLoading, setUpdateButtonLoading] = useState(false);
@@ -53,8 +55,8 @@ const UpdateMissionsPage = ({ params }) => {
         toast.success("Mission Updated Successfully", {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
-
         getData();
+        router.push("/missions");
       }
     } catch (error) {
       toast.error(`Something went wrong ${error}`, {
@@ -108,7 +110,10 @@ const UpdateMissionsPage = ({ params }) => {
               name={"speed"}
             />
             <div className="mt-4">
-              <ButtonComponent disabled={updateButtonLoading} label={"Update"} />
+              <ButtonComponent
+                disabled={updateButtonLoading}
+                label={"Update"}
+              />
             </div>
           </form>
         </div>

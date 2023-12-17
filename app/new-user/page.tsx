@@ -20,7 +20,7 @@ const createNewUser = async () => {
     });
   }
 
-  redirect("/home");
+  redirect("/missions");
 };
 
 const NewUser = async () => {

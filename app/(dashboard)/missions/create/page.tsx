@@ -9,8 +9,10 @@ import { MissionWayPointExample } from "@/lib/utils";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/navigation";
 
 const CreateMissionsPage = () => {
+   const router = useRouter();
   const [loading, setLoading] = useState(false);
   // Create a function to get all the data from the below form and then log it to console
 
@@ -33,6 +35,7 @@ const CreateMissionsPage = () => {
         toast.success("Mission Created Successfully", {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
+        router.push("/missions");
       }
     } catch (error) {
       console.log(error);

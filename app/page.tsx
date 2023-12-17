@@ -5,7 +5,7 @@ export const dynamic = "force-dynamic";
 
 export default async function Home() {
   const { userId } = await auth();
-  let href = userId ? "/home" : "/new-user";
+  let href = userId ? "/missions" : "/new-user";
   return (
     <div className="flex flex-col items-center justify-center h-screen p-4">
       <div>
