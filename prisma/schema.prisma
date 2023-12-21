@@ -36,10 +36,23 @@ model Mission {
   user   User   @relation(fields: [userId], references: [id])
 
   name      String
-  status    Status @default(pending)
+  status    Status    @default(pending)
   waypoints Json
   altitude  Int
   speed     Int
+  LogData   InspectionLog[]
 
   @@unique([userId, id])
+}
+
+model InspectionLog {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  missionId String
+  mission   Mission @relation(fields: [missionId], references: [id])
+  data      Json
+
+  @@unique([missionId, id])
 }
