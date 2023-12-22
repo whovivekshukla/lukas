@@ -102,16 +102,25 @@ export const deleteMission = async (missionId) => {
 export const performInspection = async (position) => {
   let resArray = [];
   try {
+    resArray.push("Starting Inspection...");
     const armDroneRes = await armDrone();
     resArray.push(armDroneRes);
+    resArray.push("Taking Off...");
     const takeOffRes = await takeOff();
     resArray.push(takeOffRes);
+    resArray.push("Setting Waypoint...");
     const setWayPointRes = await setWayPoint(position);
     resArray.push(setWayPointRes);
+    resArray.push("Executing Waypoints...");
     const executeWayPointsRes = await executeWayPoints();
     resArray.push(executeWayPointsRes);
+    resArray.push("Returning to Launch...");
     const setRTLRes = await setRTL();
     resArray.push(setRTLRes);
+    resArray.push("Landing...");
+    const landRes = await land();
+    resArray.push(landRes);
+    resArray.push("Disarming...");
     const disarmDroneRes = await disarmDrone();
     resArray.push(disarmDroneRes);
     return resArray;

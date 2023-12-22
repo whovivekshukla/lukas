@@ -8,6 +8,7 @@ import {
   executeWayPoints,
   setRTL,
 } from "@/lib/FlytBaseAPIs/api";
+import { performInspection } from "@/lib/api";
 
 const Home = () => {
   const position = [
@@ -57,36 +58,12 @@ const Home = () => {
     setTerminalOutput((prevOutput) => [...prevOutput, message]);
   };
 
-  const performInspection = async () => {
-    try {
-      appendToTerminal("Arming drone...");
-      const armResponse = await armDrone();
-      appendToTerminal(armResponse);
-
-      appendToTerminal("Taking off...");
-      const takeOffResponse = await takeOff();
-      appendToTerminal(takeOffResponse);
-
-      appendToTerminal("Setting waypoints...");
-      appendToTerminal(await setWayPoint(position));
-
-      appendToTerminal("Executing waypoints...");
-      appendToTerminal(await executeWayPoints());
-
-      appendToTerminal("Setting RTL...");
-      appendToTerminal(await setRTL());
-
-      // ... Continue with other API calls
-    } catch (error) {
-      const errorMessage = `Error during inspection: ${error.message}`;
-      console.error(errorMessage);
-      appendToTerminal(errorMessage);
-    }
-  };
 
   useEffect(() => {
     const fetchData = async () => {
-      await performInspection();
+     const inspection=  await performInspection(position);
+     appendToTerminal(inspection)
+     return inspection;
       // Any other synchronous logic after the asynchronous operations
     };
 

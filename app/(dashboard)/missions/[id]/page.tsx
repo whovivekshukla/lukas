@@ -14,14 +14,17 @@ const MissionsPage = ({ params }) => {
 
   const getMissionData = async () => {
     setLoading(true);
-
-    const mission = await getSingleMission(params.id);
-
-    if (!mission) {
-      router.push("/not-found");
+    try {
+      const mission = await getSingleMission(params.id);
+      if (!mission) {
+        router.push("/not-found");
+      }
+      setMission(mission);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setLoading(false);
     }
-    setMission(mission);
-    setLoading(false);
   };
 
   useEffect(() => {
@@ -35,11 +38,23 @@ const MissionsPage = ({ params }) => {
           <progress className="progress w-56"></progress>
         </div>
       ) : (
-        <div className="flex flex-row justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold mb-4 flex-grow">{mission?.name}</h1>
-          <Link href={`/missions/update/${params.id}`}>
-            <button className="btn btn-primary">Update Mission</button>
-          </Link>
+        <div>
+          <div className="flex flex-row justify-between items-center mb-8">
+            <h1 className="text-3xl font-bold mb-4 flex-grow">
+              {mission?.name}
+            </h1>
+            <Link href={`/missions/update/${params.id}`}>
+              <button className="btn btn-primary">Update Mission</button>
+            </Link>
+          </div>
+          <div>
+            <div>
+              <p>Status: {mission?.status}</p>
+              <p>Altitude: {mission?.altitude} meters</p>
+              <p>Speed: {mission?.speed} m/s</p>
+              {/* Add more mission details as needed */}
+            </div>
+          </div>
         </div>
       )}
     </div>

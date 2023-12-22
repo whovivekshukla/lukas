@@ -9,7 +9,6 @@ const createAxiosInstance = () => {
       VehicleID: process.env.FLYTBASE_VEHICLEID,
     },
   });
-
   return instance;
 };
 
@@ -54,7 +53,7 @@ export const armDrone = async () => {
 export const disarmDrone = async () => {
   try {
     const response = await customAxios.get("flytos/navigation/disarm");
-    console.log("API Response Data:", response.data);
+    // console.log("API Response Data:", response.data);
     return response.data.message;
   } catch (error) {
     // console.error("Error:", error);
@@ -84,8 +83,8 @@ export const land = async () => {
       },
     });
 
-    console.log("API Response Data:", response.data);
-    return response;
+    // console.log("API Response Data:", response.data);
+    return response.data;
   } catch (error) {
     // console.error("Error:", error);
     return error.message;
