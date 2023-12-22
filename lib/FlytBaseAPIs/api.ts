@@ -2,9 +2,9 @@ import axios from "axios";
 
 const createAxiosInstance = () => {
   const instance = axios.create({
-    baseURL: "https://dev.flytbase.com/ros/",
+    baseURL: `${process.env.FLY_URL}/api/flytbase/ros/`,
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
       Authorization: process.env.FLYTBASE_AUTHORIZATION,
       VehicleID: process.env.FLYTBASE_VEHICLEID,
     },
@@ -65,9 +65,8 @@ export const disarmDrone = async () => {
 export const takeOff = async () => {
   try {
     const response = await customAxios.post("flytos/navigation/take_off", {
-      takeoff_alt: 50,
+      takeoff_alt: 10,
     });
-
 
     // console.log("API Response Data:", response.data.message);
     return response.data.message;

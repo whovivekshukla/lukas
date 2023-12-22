@@ -1,12 +1,4 @@
-import {
-  armDrone,
-  takeOff,
-  setWayPoint,
-  executeWayPoints,
-  setRTL,
-} from "@/lib/FlytBaseAPIs/api";
-
-const HomePage = () => {
+const HomePage = async () => {
   return (
     <div>
       <h1>Mission Inspection Status</h1>

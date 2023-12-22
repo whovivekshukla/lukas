@@ -61,7 +61,9 @@ const Missions = () => {
             />
           ))
         ) : (
-          <p className="text-gray-600">Loading missions...</p>
+          <div className="flex items-center justify-center">
+            <progress className="progress w-56"></progress>
+          </div>
         )}
       </div>
     </div>

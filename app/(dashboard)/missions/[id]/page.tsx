@@ -1,128 +1,49 @@
 "use client";
 
-import ButtonComponent from "@/components/ButtonComponent";
-import InputComponent from "@/components/InputComponent";
-import SelectUpdateComponent from "@/components/SelectUpdateComponent";
-import TextAreaComponent from "@/components/TextAreaComponent";
-import { getSingleMission, updateMission } from "@/lib/api";
-import { useEffect, useState } from "react";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { getSingleMission } from "@/lib/api";
+import { getUserFromClerkId } from "@/lib/auth";
+import { prisma } from "@/lib/db";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
 
-const UpdateMissionsPage = ({ params }) => {
+const MissionsPage = ({ params }) => {
   const router = useRouter();
-  const [missionData, setMissionData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [updateButtonLoading, setUpdateButtonLoading] = useState(false);
+  const [mission, setMission] = useState(null);
+  const [loading, setLoading] = useState(false);
 
-  const getData = async () => {
-    try {
-      const mission = await getSingleMission(params.id);
-      if (!mission) {
-        router.push("/not-found");
-      }
-      setMissionData({
-        id: params.id,
-        name: mission.name,
-        status: mission.status,
-        waypoints: mission.waypoints,
-        altitude: mission.altitude,
-        speed: mission.speed,
-      });
-      setLoading(false);
-    } catch (error) {
-      console.log(error);
+  const getMissionData = async () => {
+    setLoading(true);
+
+    const mission = await getSingleMission(params.id);
+
+    if (!mission) {
+      router.push("/not-found");
     }
+    setMission(mission);
+    setLoading(false);
   };
 
   useEffect(() => {
-    getData();
-  }, []); // Run only once on component mount
-
-  const handleSubmit = async (e) => {
-    try {
-      e.preventDefault();
-      setUpdateButtonLoading(true);
-      const mission = {
-        id: params.id,
-        name: e.target.name.value,
-        status: e.target.status.value,
-        waypoints: JSON.parse(e.target.waypoints.value),
-        altitude: parseInt(e.target.altitude.value),
-        speed: parseInt(e.target.speed.value),
-      };
-
-      const res = await updateMission({ missionData: mission });
-      if (res) {
-        toast.success("Mission Updated Successfully", {
-          position: toast.POSITION.BOTTOM_RIGHT,
-        });
-        getData();
-        router.push("/missions");
-      }
-    } catch (error) {
-      toast.error(`Something went wrong ${error}`, {
-        position: toast.POSITION.BOTTOM_RIGHT,
-      });
-      console.log(error);
-    } finally {
-      setUpdateButtonLoading(false);
-    }
-  };
+    getMissionData();
+  }, [params.id, router]);
 
   return (
-    <div className="flex flex-col items-center justify-center py-8 bg-slate-200">
-      <div className="my-8">
-        <h2 className="text-2xl">
-          {loading ? "Loading Mission Data" : "Update Mission"}
-        </h2>
-      </div>
-
-      {!loading && (
-        <div>
-          <form onSubmit={handleSubmit}>
-            <InputComponent
-              labelName={"Mission name:"}
-              type={"text"}
-              name={"name"}
-              value={missionData.name}
-            />
-            <SelectUpdateComponent
-              label={"Mission Status:"}
-              options={["pending", "inprogress", "completed"]}
-              name={"status"}
-              defaultValue={missionData.status}
-            />
-
-            <TextAreaComponent
-              label={"Waypoints"}
-              value={missionData.waypoints}
-              name={"waypoints"}
-            />
-            <InputComponent
-              labelName={"Altitude:"}
-              type={"number"}
-              name={"altitude"}
-              value={missionData.altitude}
-            />
-            <InputComponent
-              labelName={"Speed:"}
-              value={missionData.speed}
-              type={"number"}
-              name={"speed"}
-            />
-            <div className="mt-4">
-              <ButtonComponent
-                disabled={updateButtonLoading}
-                label={"Update"}
-              />
-            </div>
-          </form>
+    <div className="container mx-auto mt-8">
+      {loading ? (
+        <div className="flex items-center justify-center">
+          <progress className="progress w-56"></progress>
+        </div>
+      ) : (
+        <div className="flex flex-row justify-between items-center mb-8">
+          <h1 className="text-3xl font-bold mb-4 flex-grow">{mission?.name}</h1>
+          <Link href={`/missions/update/${params.id}`}>
+            <button className="btn btn-primary">Update Mission</button>
+          </Link>
         </div>
       )}
     </div>
   );
 };
 
-export default UpdateMissionsPage;
+export default MissionsPage;

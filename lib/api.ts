@@ -5,6 +5,7 @@ import {
   executeWayPoints,
   setRTL,
   land,
+  disarmDrone,
 } from "./FlytBaseAPIs/api";
 
 const createURL = (path) => {
@@ -111,6 +112,8 @@ export const performInspection = async (position) => {
     resArray.push(executeWayPointsRes);
     const setRTLRes = await setRTL();
     resArray.push(setRTLRes);
+    const disarmDroneRes = await disarmDrone();
+    resArray.push(disarmDroneRes);
     return resArray;
   } catch (error) {
     resArray.push(error);
