@@ -37,14 +37,19 @@ export const GET = async (request: Request, { params }) => {
     console.log("no previous inspection found...");
     console.log("performing inspection...");
 
-    const inspection = await performInspection(mission.waypoints);
-    console.log("inspection finished");
-    const inspectionLog = await prisma.inspectionLog.create({
+    const resArray = [];
+    const result = await performInspection(mission.waypoints, async (log) => {
+      console.log(log); // Log each step of the inspection process
+      resArray.push(log);
+    });
+
+    await prisma.inspectionLog.create({
       data: {
         missionId: mission.id,
-        data: inspection,
+        data: resArray,
       },
     });
+    console.log("inspection finished");
 
     console.log("inspection log created");
 

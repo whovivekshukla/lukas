@@ -1,11 +1,14 @@
 "use client";
 
+import MissionDetails from "@/components/MissionData";
+import Terminal from "@/components/Terminal";
 import { getSingleMission } from "@/lib/api";
 import { getUserFromClerkId } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
+import { performInspection } from "@/lib/api";
 
 const MissionsPage = ({ params }) => {
   const router = useRouter();
@@ -26,6 +29,8 @@ const MissionsPage = ({ params }) => {
       setLoading(false);
     }
   };
+
+  
 
   useEffect(() => {
     getMissionData();
@@ -48,12 +53,10 @@ const MissionsPage = ({ params }) => {
             </Link>
           </div>
           <div>
-            <div>
-              <p>Status: {mission?.status}</p>
-              <p>Altitude: {mission?.altitude} meters</p>
-              <p>Speed: {mission?.speed} m/s</p>
-              {/* Add more mission details as needed */}
-            </div>
+            <MissionDetails missionData={mission} />
+          </div>
+          <div>
+            {/* <Terminal logs={logs} /> */}
           </div>
         </div>
       )}

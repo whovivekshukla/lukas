@@ -99,33 +99,48 @@ export const deleteMission = async (missionId) => {
   }
 };
 
-export const performInspection = async (position) => {
+export const performInspection = async (position, logCallback) => {
   let resArray = [];
   try {
     resArray.push("Starting Inspection...");
+    logCallback("Starting Inspection...");
     const armDroneRes = await armDrone();
-    resArray.push(armDroneRes);
+    logCallback(armDroneRes);
+
     resArray.push("Taking Off...");
+    logCallback("Taking Off...");
     const takeOffRes = await takeOff();
-    resArray.push(takeOffRes);
+    logCallback(takeOffRes);
+
     resArray.push("Setting Waypoint...");
+    logCallback("Setting Waypoint...");
     const setWayPointRes = await setWayPoint(position);
-    resArray.push(setWayPointRes);
+    logCallback(setWayPointRes);
+
     resArray.push("Executing Waypoints...");
+    logCallback("Executing Waypoints...");
     const executeWayPointsRes = await executeWayPoints();
-    resArray.push(executeWayPointsRes);
+    logCallback(executeWayPointsRes);
+
     resArray.push("Returning to Launch...");
+    logCallback("Returning to Launch...");
     const setRTLRes = await setRTL();
-    resArray.push(setRTLRes);
+    logCallback(setRTLRes);
+
     resArray.push("Landing...");
+    logCallback("Landing...");
     const landRes = await land();
-    resArray.push(landRes);
+    logCallback(landRes);
+
     resArray.push("Disarming...");
+    logCallback("Disarming...");
     const disarmDroneRes = await disarmDrone();
-    resArray.push(disarmDroneRes);
-    return resArray;
+    logCallback(disarmDroneRes);
+
+    return { result: "Inspection completed successfully", logs: resArray };
   } catch (error) {
-    resArray.push(error);
-    return resArray;
+    resArray.push(`Error: ${error}`);
+    logCallback(`Error: ${error}`);
+    throw error;
   }
 };
