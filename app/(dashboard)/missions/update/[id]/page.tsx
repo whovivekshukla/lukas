@@ -47,7 +47,6 @@ const UpdateMissionsPage = ({ params }) => {
       const mission = {
         id: params.id,
         name: e.target.name.value,
-        status: e.target.status.value,
         waypoints: JSON.parse(e.target.waypoints.value),
         altitude: parseInt(e.target.altitude.value),
         speed: parseInt(e.target.speed.value),

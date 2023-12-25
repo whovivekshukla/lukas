@@ -22,7 +22,6 @@ const CreateMissionsPage = () => {
       setLoading(true);
       const mission = {
         name: e.target.name.value,
-        status: e.target.status.value,
         waypoints: JSON.parse(e.target.waypoints.value),
         altitude: parseInt(e.target.altitude.value),
         speed: parseInt(e.target.speed.value),
@@ -56,11 +55,6 @@ const CreateMissionsPage = () => {
             type={"text"}
             name={"name"}
             value={"Drone Investigation"}
-          />
-          <SelectNewComponent
-            label={"Mission Status:"}
-            props={["pending", "inprogress", "completed"]}
-            name={"status"}
           />
           <TextAreaComponent
             label={"Waypoints"}

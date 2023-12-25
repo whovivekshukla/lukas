@@ -5,7 +5,7 @@ const SelectUpdateComponent = ({ label, options, name, defaultValue }) => {
         <div className="label">
           <span className="label-text">{label}</span>
         </div>
-        <select className="select select-bordered" name={name} required>
+        <select className="select select-bordered" name={name} required disabled>
           {options.map((option) => (
             <option
               key={option}

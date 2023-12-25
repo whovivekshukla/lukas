@@ -65,7 +65,7 @@ const MissionsPage = ({ params }) => {
                 <Terminal logs={logData} />
               </div>
             ) : (
-              <div>Loading log data...</div>
+              <div></div>
             )}
           </div>
         </div>
