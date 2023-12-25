@@ -99,6 +99,23 @@ export const deleteMission = async (missionId) => {
   }
 };
 
+export const getInspectionLog = async (missionId) => {
+   try {
+     const res = await fetch(
+       new Request(createURL(`/api/inspection/log/${missionId}`), {
+         method: "GET",
+       })
+     );
+
+     if (res.ok) {
+       const data = await res.json();
+       return data;
+     }
+   } catch (error) {
+     console.log(error);
+   }
+}
+
 export const performInspection = async (position, logCallback) => {
   let resArray = [];
   try {

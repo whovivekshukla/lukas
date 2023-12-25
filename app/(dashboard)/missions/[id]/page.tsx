@@ -2,27 +2,33 @@
 
 import MissionDetails from "@/components/MissionData";
 import Terminal from "@/components/Terminal";
-import { getSingleMission } from "@/lib/api";
-import { getUserFromClerkId } from "@/lib/auth";
+import {
+  getInspectionLog,
+  getSingleMission,
+  performInspection,
+} from "@/lib/api";
 import { prisma } from "@/lib/db";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import { performInspection } from "@/lib/api";
 
 const MissionsPage = ({ params }) => {
   const router = useRouter();
   const [mission, setMission] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [logData, setLogData] = useState(null);
 
-  const getMissionData = async () => {
+  const getAllData = async (missionId) => {
     setLoading(true);
     try {
-      const mission = await getSingleMission(params.id);
+      const mission = await getSingleMission(missionId);
       if (!mission) {
         router.push("/not-found");
       }
       setMission(mission);
+      const log = await getInspectionLog(missionId);
+  
+      setLogData(log.log.data);
     } catch (error) {
       console.log(error);
     } finally {
@@ -30,10 +36,8 @@ const MissionsPage = ({ params }) => {
     }
   };
 
-  
-
   useEffect(() => {
-    getMissionData();
+    getAllData(params.id);
   }, [params.id, router]);
 
   return (
@@ -56,7 +60,13 @@ const MissionsPage = ({ params }) => {
             <MissionDetails missionData={mission} />
           </div>
           <div>
-            {/* <Terminal logs={logs} /> */}
+            {logData ? (
+              <div>
+                <Terminal logs={logData} />
+              </div>
+            ) : (
+              <div>Loading log data...</div>
+            )}
           </div>
         </div>
       )}

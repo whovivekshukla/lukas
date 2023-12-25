@@ -1,0 +1,25 @@
+import { getUserFromClerkId } from "@/lib/auth";
+import { prisma } from "@/lib/db";
+import { NextResponse } from "next/server";
+
+export const GET = async (equest: Request, { params }) => {
+  try {
+    const user = await getUserFromClerkId();
+    const log = await prisma.inspectionLog.findFirst({
+      where: {
+        missionId: params.id,
+        mission: {
+          userId: user.id,
+        },
+      },
+    });
+
+    if (!log) {
+      return NextResponse.json({ message: "No log found" });
+    }
+
+    return NextResponse.json({ log });
+  } catch (error) {
+    NextResponse.json({ message: "Error fetching log" });
+  }
+};

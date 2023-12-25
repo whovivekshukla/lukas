@@ -4,7 +4,11 @@ import React from "react";
 
 const MissionDetails = ({ missionData }) => {
   if (!missionData) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex items-center justify-center">
+        <progress className="progress w-56"></progress>
+      </div>
+    );
   }
 
   const {

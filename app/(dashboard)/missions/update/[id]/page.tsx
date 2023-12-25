@@ -59,7 +59,7 @@ const UpdateMissionsPage = ({ params }) => {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
         getData();
-        router.push("/missions");
+        router.push(`/missions/${params.id}`);
       }
     } catch (error) {
       toast.error(`Something went wrong ${error}`, {

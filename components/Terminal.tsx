@@ -22,7 +22,8 @@ const Terminal = ({ logs }) => {
       >
         {logs.map((log, index) => (
           <div key={index} className="mb-2">
-            {log}
+            {console.log(log)}
+            {JSON.stringify(log)}
           </div>
         ))}
       </div>
