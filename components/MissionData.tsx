@@ -16,6 +16,7 @@ const MissionDetails = ({ missionData }) => {
     waypoints,
     speed,
     altitude,
+    InspectionTime
     // Add more fields as needed
   } = missionData;
 
@@ -33,7 +34,17 @@ const MissionDetails = ({ missionData }) => {
         <div>
           <strong>Altitude:</strong> {altitude} meters
         </div>
-        {/* Add more details as needed */}
+        <div>
+          <strong>Inspection Time:</strong> {
+             new Date(InspectionTime).toLocaleDateString("en-US", {
+            day: "numeric",
+            month: "short",
+            year: "numeric",
+            hour: "numeric",
+            minute: "numeric",
+          })
+          }
+        </div>
       </div>
 
       <div className="mt-6">
