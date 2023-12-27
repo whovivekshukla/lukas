@@ -6,12 +6,14 @@ import { NextResponse } from "next/server";
 export const GET = async (request: Request, { params }) => {
   try {
     const user = await getUserFromClerkId();
-    const mission = await prisma.mission.findUnique({
+    const mission = await prisma.mission.findMany({
       where: {
         userId: user.id,
-        id: params.id,
+        status: "pending",
       },
     });
+
+    console.log(mission);
 
     console.log("mission found...");
 

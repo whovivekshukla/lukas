@@ -12,36 +12,49 @@ import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
 
 const CreateMissionsPage = () => {
-   const router = useRouter();
+  const router = useRouter();
   const [loading, setLoading] = useState(false);
   // Create a function to get all the data from the below form and then log it to console
 
-  const handleSubmit = async (e) => {
-    try {
-      e.preventDefault();
-      setLoading(true);
-      const mission = {
-        name: e.target.name.value,
-        waypoints: JSON.parse(e.target.waypoints.value),
-        altitude: parseInt(e.target.altitude.value),
-        speed: parseInt(e.target.speed.value),
-      };
-      // console.log(mission);
+ const handleSubmit = async (e) => {
+   try {
+     e.preventDefault();
+     setLoading(true);
 
-      const res = await createMission({ missionData: mission });
-      // console.log(res);
-      if (res) {
-        toast.success("Mission Created Successfully", {
-          position: toast.POSITION.BOTTOM_RIGHT,
-        });
-        router.push("/missions");
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  };
+     const mission = {
+       name: e.target.name.value,
+       waypoints: JSON.parse(e.target.waypoints.value),
+       altitude: parseInt(e.target.altitude.value),
+       speed: parseInt(e.target.speed.value),
+       InspectionTime: e.target.InspectionTime.value,
+     };
+
+     // Make the API call
+     const res = await createMission({ missionData: mission });
+
+     // Check if the response indicates success
+     console.log(res);
+     
+     if (res && res.message) {
+       toast.success(`${res.message}`, {
+         position: toast.POSITION.BOTTOM_RIGHT,
+       });
+       router.push("/missions");
+     } else {
+       toast.error(`Failed to create mission. ${JSON.stringify(res.errors[0])}`, {
+         position: toast.POSITION.BOTTOM_RIGHT,
+       });
+     }
+   } catch (error) {
+     // Handle any unexpected errors
+     toast.error(`An error occurred: ${error.message}`, {
+       position: toast.POSITION.BOTTOM_RIGHT,
+     });
+   } finally {
+     setLoading(false);
+   }
+ };
+
   return (
     <div className="flex flex-col items-center justify-center py-8 bg-slate-200">
       <div className="my-8">
@@ -73,6 +86,14 @@ const CreateMissionsPage = () => {
             type={"number"}
             name={"speed"}
           />
+          <label className="label cursor-pointer form-control w-full max-w-xs">
+            <input
+              type="datetime-local"
+              name="InspectionTime"
+              className="input input-bordered input-primary"
+              required
+            />
+          </label>
           <div className="mt-4">
             <ButtonComponent disabled={loading} label={"Submit"} />
           </div>

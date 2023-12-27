@@ -117,6 +117,14 @@ const UpdateMissionsPage = ({ params }) => {
               type={"number"}
               name={"speed"}
             />
+            <label className="label cursor-pointer form-control w-full max-w-xs">
+              <input
+                type="datetime-local"
+                name="InspectionTime"
+                className="input input-bordered input-primary"
+                required
+              />
+            </label>
             <div className="mt-4">
               <ButtonComponent
                 disabled={updateButtonLoading}
