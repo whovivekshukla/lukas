@@ -16,9 +16,10 @@ const MissionDetails = ({ missionData }) => {
     waypoints,
     speed,
     altitude,
-    InspectionTime
+    InspectionTime,
     // Add more fields as needed
   } = missionData;
+
 
   return (
     <div className="max-w-3xl mx-auto mt-8 p-8 bg-white shadow-lg rounded-md">
@@ -35,27 +36,32 @@ const MissionDetails = ({ missionData }) => {
           <strong>Altitude:</strong> {altitude} meters
         </div>
         <div>
-          <strong>Inspection Time:</strong> {
-             new Date(InspectionTime).toLocaleDateString("en-US", {
+          <strong>Inspection Time:</strong>{" "}
+          {new Date(InspectionTime).toLocaleDateString("en-US", {
             day: "numeric",
             month: "short",
             year: "numeric",
             hour: "numeric",
             minute: "numeric",
-          })
-          }
+          })}
         </div>
       </div>
 
       <div className="mt-6">
-        <h3 className="text-lg font-semibold mb-2">Waypoints</h3>
-        <ul>
-          {waypoints.map((waypoint, index) => (
-            <li key={index} className="mb-2">
-              {waypoint.param1}
-            </li>
+        <h3 className="text-lg font-semibold mb-2">Waypoints:</h3>
+        <div className="max-h-32 overflow-y-auto">
+          {/* <p>{JSON.stringify(waypoints)}</p> */}
+          {waypoints.map((data, index) => (
+            <div key={index}>
+              {Object.entries(data).map(([key, value]) => (
+                <p key={key}>
+                  {key}: {value}
+                </p>
+              ))}
+              <p>.................</p>
+            </div>
           ))}
-        </ul>
+        </div>
       </div>
 
       {/* Add more sections as needed */}

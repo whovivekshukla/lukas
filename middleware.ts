@@ -2,6 +2,7 @@ import { authMiddleware } from "@clerk/nextjs";
 export default authMiddleware({
   publicRoutes: [
     "/",
+    "/api/flytbase/ros/flytos/navigation/access_request",
     "/api/flytbase/ros/flytos/navigation/arm",
     "/api/flytbase/ros/flytos/navigation/disarm",
     "/api/flytbase/ros/flytos/navigation/take_off",
