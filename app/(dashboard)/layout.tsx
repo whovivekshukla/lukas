@@ -3,7 +3,7 @@ import Link from "next/link";
 const DashboardLayout = ({ children }) => {
   return (
     <div>
-      <div className="navbar bg-base-100">
+      <div className="navbar bg-base-100 fixed w-full top-0 z-[1000]">
         <div className="navbar-start">
           <div className="dropdown">
             <div
@@ -57,7 +57,7 @@ const DashboardLayout = ({ children }) => {
           </button>
         </div>
       </div>
-      <div>{children}</div>
+      <div className="pt-14">{children}</div>
     </div>
   );
 };
