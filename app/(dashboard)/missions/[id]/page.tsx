@@ -27,7 +27,9 @@ const MissionsPage = ({ params }) => {
       }
       setMission(mission);
       const log = await getInspectionLog(missionId);
-  
+      if (!log.log.data) {
+        setLogData(null);
+      }
       setLogData(log.log.data);
     } catch (error) {
       console.log(error);

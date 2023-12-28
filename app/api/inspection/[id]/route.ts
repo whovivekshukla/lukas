@@ -48,11 +48,10 @@ export const GET = async (request: Request, { params }) => {
 
     const resArray = [];
     const result = await performInspection(mission.waypoints, async (log) => {
-      console.log(log); // Log each step of the inspection process
       resArray.push(log);
     });
 
-    await prisma.inspectionLog.create({
+    const newInspection = await prisma.inspectionLog.create({
       data: {
         missionId: mission.id,
         data: resArray,
@@ -71,7 +70,7 @@ export const GET = async (request: Request, { params }) => {
 
     console.log("inspection log created");
 
-    return NextResponse.json(resArray);
+    return NextResponse.json({ log: newInspection });
   } catch (error) {
     console.error("Error creating inspection:", error);
     return NextResponse.json({ msg: "Inspection Not Found" });
