@@ -91,6 +91,7 @@ const CreateMissionsPage = () => {
               type="datetime-local"
               name="InspectionTime"
               className="input input-bordered input-primary"
+              defaultValue={new Date().toISOString().slice(0, 16)}
               required
             />
           </label>
