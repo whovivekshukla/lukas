@@ -16,44 +16,48 @@ const CreateMissionsPage = () => {
   const [loading, setLoading] = useState(false);
   // Create a function to get all the data from the below form and then log it to console
 
- const handleSubmit = async (e) => {
-   try {
-     e.preventDefault();
-     setLoading(true);
+  const handleSubmit = async (e) => {
+    try {
+      e.preventDefault();
+      setLoading(true);
 
-     const mission = {
-       name: e.target.name.value,
-       waypoints: JSON.parse(e.target.waypoints.value),
-       altitude: parseInt(e.target.altitude.value),
-       speed: parseInt(e.target.speed.value),
-       InspectionTime: e.target.InspectionTime.value,
-     };
+      const mission = {
+        name: e.target.name.value,
+        waypoints: JSON.parse(e.target.waypoints.value),
+        altitude: parseInt(e.target.altitude.value),
+        speed: parseInt(e.target.speed.value),
+        InspectionTime: e.target.InspectionTime.value,
+      };
 
-     // Make the API call
-     const res = await createMission({ missionData: mission });
+      // Make the API call
+      const res = await createMission({ missionData: mission });
 
-     // Check if the response indicates success
-     console.log(res);
-     
-     if (res && res.message) {
-       toast.success(`${res.message}`, {
-         position: toast.POSITION.BOTTOM_RIGHT,
-       });
-       router.push("/missions");
-     } else {
-       toast.error(`Failed to create mission. ${JSON.stringify(res.errors[0])}`, {
-         position: toast.POSITION.BOTTOM_RIGHT,
-       });
-     }
-   } catch (error) {
-     // Handle any unexpected errors
-     toast.error(`An error occurred: ${error.message}`, {
-       position: toast.POSITION.BOTTOM_RIGHT,
-     });
-   } finally {
-     setLoading(false);
-   }
- };
+      // Check if the response indicates success
+      console.log(res);
+
+      if (res && res.message) {
+        toast.success(`${res.message}`, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
+        router.push("/missions");
+      } else {
+        toast.error(
+          `Failed to create mission. ${JSON.stringify(res.errors[0])}`,
+          {
+            position: toast.POSITION.BOTTOM_RIGHT,
+          }
+        );
+      }
+    } catch (error) {
+      // Handle any unexpected errors
+      toast.error(`An error occurred: ${error.message}`, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+
 
   return (
     <div className="flex flex-col items-center justify-center py-8 bg-slate-200">

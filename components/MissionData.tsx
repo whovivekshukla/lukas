@@ -55,7 +55,7 @@ const MissionDetails = ({ missionData }) => {
             <div key={index}>
               {Object.entries(data).map(([key, value]) => (
                 <p key={key}>
-                  {key}: {value}
+                  {key}: {JSON.stringify(value)}
                 </p>
               ))}
               <p>.................</p>

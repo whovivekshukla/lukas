@@ -7,6 +7,9 @@ import {
   land,
   disarmDrone,
 } from "./FlytBaseAPIs/api";
+import { prisma } from "./db";
+import { getUserFromClerkId } from "./auth";
+import { getEdgePolyfilledModules } from "next/dist/build/webpack/plugins/middleware-plugin";
 
 const createURL = (path) => {
   return window.location.origin + path;
@@ -100,21 +103,21 @@ export const deleteMission = async (missionId) => {
 };
 
 export const getInspectionLog = async (missionId) => {
-   try {
-     const res = await fetch(
-       new Request(createURL(`/api/inspection/log/${missionId}`), {
-         method: "GET",
-       })
-     );
+  try {
+    const res = await fetch(
+      new Request(createURL(`/api/inspection/log/${missionId}`), {
+        method: "GET",
+      })
+    );
 
-     if (res.ok) {
-       const data = await res.json();
-       return data;
-     }
-   } catch (error) {
-     console.log(error);
-   }
-}
+    if (res.ok) {
+      const data = await res.json();
+      return data;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
 
 export const performInspection = async (position, logCallback) => {
   let resArray = [];
@@ -160,4 +163,51 @@ export const performInspection = async (position, logCallback) => {
     logCallback(`Error: ${error}`);
     throw error;
   }
+};
+
+export const performScheduledInspection = async (mission) => {
+  const user = await getUserFromClerkId();
+  const checkInspectionLog = await prisma.inspectionLog.findFirst({
+    where: {
+      missionId: mission.id,
+      mission: {
+        userId: user.id,
+      },
+    },
+  });
+
+  if (checkInspectionLog) {
+    return NextResponse.json({ log: checkInspectionLog });
+  }
+  await prisma.mission.update({
+    where: {
+      id: mission.id,
+    },
+    data: {
+      status: "inprogress",
+    },
+  });
+
+  const resArray = [];
+  const result = await performInspection(mission.waypoints, async (log) => {
+    resArray.push(log);
+  });
+
+  const newInspection = await prisma.inspectionLog.create({
+    data: {
+      missionId: mission.id,
+      data: resArray,
+    },
+  });
+
+  await prisma.mission.update({
+    data: {
+      status: "completed",
+    },
+    where: {
+      id: mission.id,
+    },
+  });
+
+  return newInspection;
 };
