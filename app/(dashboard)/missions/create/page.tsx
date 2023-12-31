@@ -58,7 +58,6 @@ const CreateMissionsPage = () => {
     }
   };
 
-
   return (
     <div className="flex flex-col items-center justify-center py-8 bg-slate-200">
       <div className="my-8">

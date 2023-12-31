@@ -8,8 +8,11 @@ export const POST = async (request: Request) => {
   try {
     const user = await getUserFromClerkId();
     const missionDataJSON = await request.json();
+    console.log(missionDataJSON.InspectionTime);
     missionDataJSON.status = "pending";
-    missionDataJSON.InspectionTime = new Date (missionDataJSON.InspectionTime).toISOString();
+    missionDataJSON.InspectionTime = new Date(
+      missionDataJSON.InspectionTime
+    ).toISOString();
 
     const missionData = MissionValidation.parse(missionDataJSON);
     const mission = await prisma.mission.create({
