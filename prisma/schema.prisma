@@ -52,7 +52,7 @@ model InspectionLog {
   updatedAt DateTime @updatedAt
 
   missionId String
-  mission   Mission @relation(fields: [missionId], references: [id])
+  mission   Mission @relation(fields: [missionId], references: [id], onDelete: Cascade)
   data      Json
 
   @@unique([missionId, id])

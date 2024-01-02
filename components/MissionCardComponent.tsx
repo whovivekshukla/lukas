@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Badge from "./BadgeComponent";
 
 const MissionCard = ({ mission, onDelete }) => {
   return (
@@ -6,7 +7,9 @@ const MissionCard = ({ mission, onDelete }) => {
       <p className="text-xl font-bold mb-2">
         <Link href={`/missions/${mission.id}`}>{mission.name}</Link>
       </p>
-      <p className="text-gray-600">Status: {mission.status}</p>
+      <p className="text-gray-600">
+        Status: {<Badge status={mission.status} />}
+      </p>
       <div className="max-h-32 overflow-y-auto">
         <p className="text-gray-600">{JSON.stringify(mission.waypoints)}</p>
       </div>

@@ -1,6 +1,6 @@
 "use client";
 
-import MissionDetails from "@/components/MissionData";
+import MissionDetails from "@/components/MissionDetails";
 import Terminal from "@/components/Terminal";
 import {
   getInspectionLog,

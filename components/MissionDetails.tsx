@@ -1,6 +1,7 @@
 // components/MissionDetails.js
 
 import React from "react";
+import Badge from "./BadgeComponent";
 
 const MissionDetails = ({ missionData }) => {
   if (!missionData) {
@@ -20,14 +21,13 @@ const MissionDetails = ({ missionData }) => {
     // Add more fields as needed
   } = missionData;
 
-
   return (
     <div className="max-w-3xl mx-auto mt-8 p-8 bg-white shadow-lg rounded-md">
       <h2 className="text-2xl font-semibold mb-4">Details</h2>
 
       <div className="grid grid-cols-2 gap-4">
-        <div>
-          <strong>Status:</strong> {status}
+        <div className="flex flex-row">
+          <strong className="mr-2">Status: </strong> {<Badge status={status} />}
         </div>
         <div>
           <strong>Speed:</strong> {speed} km/h
