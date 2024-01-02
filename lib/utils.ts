@@ -34,3 +34,20 @@ export let MissionWayPointExample = [
     z_alt: 200.0,
   },
 ];
+
+export const LocalTime = () => {
+  const currentDateTime = new Date();
+  const options = {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  };
+  const localDateTime = currentDateTime
+    .toLocaleString(undefined, options)
+    .replace(/[.,]/g, "")
+
+  return localDateTime;
+};

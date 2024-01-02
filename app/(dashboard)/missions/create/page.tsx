@@ -5,7 +5,7 @@ import InputComponent from "@/components/InputComponent";
 import SelectNewComponent from "@/components/SelectNewComponent";
 import TextAreaComponent from "@/components/TextAreaComponent";
 import { createMission } from "@/lib/api";
-import { MissionWayPointExample } from "@/lib/utils";
+import { LocalTime, MissionWayPointExample } from "@/lib/utils";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -95,7 +95,7 @@ const CreateMissionsPage = () => {
               step={1}
               name="InspectionTime"
               className="input input-bordered input-primary"
-              defaultValue={new Date().toISOString().slice(0, 16)}
+              defaultValue={new Date().toLocaleString()}
               required
             />
           </label>

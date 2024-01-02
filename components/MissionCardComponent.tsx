@@ -3,7 +3,7 @@ import Badge from "./BadgeComponent";
 
 const MissionCard = ({ mission, onDelete }) => {
   return (
-    <div className="bg-white p-4 mb-4 rounded-md shadow-md">
+    <div className="p-4 mb-4 rounded-md shadow-md">
       <p className="text-xl font-bold mb-2">
         <Link href={`/missions/${mission.id}`}>{mission.name}</Link>
       </p>
