@@ -26,11 +26,10 @@ const MissionDetails = ({ missionData }) => {
       <h2 className="text-2xl font-semibold mb-4">Details</h2>
 
       <div className="grid grid-cols-2 gap-4">
-        <div className="flex flex-row">
-          <p className="text-gray-600 font-bold mr-2">Status:</p>
-          {<Badge status={status} />}
+        <div>
+          <strong className="">Status: </strong> {<Badge status={status} />}
         </div>
-        <div className="pt-6">
+        <div>
           <strong>Speed:</strong> {speed} km/h
         </div>
         <div>
