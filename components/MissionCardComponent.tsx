@@ -7,9 +7,10 @@ const MissionCard = ({ mission, onDelete }) => {
       <p className="text-xl font-bold mb-2">
         <Link href={`/missions/${mission.id}`}>{mission.name}</Link>
       </p>
-      <p className="text-gray-600">
-        Status: {<Badge status={mission.status} />}
-      </p>
+      <div className="flex flex-row">
+        <p className="text-gray-600 font-bold mr-2">Status:</p>
+        {<Badge status={mission.status} />}
+      </div>
       <div className="max-h-32 overflow-y-auto">
         <p className="text-gray-600">{JSON.stringify(mission.waypoints)}</p>
       </div>
