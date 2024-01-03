@@ -58,9 +58,11 @@ const MissionsPage = ({ params }) => {
                 <button className="btn btn-primary">Update Mission</button>
               </Link>
             ) : (
-              <button className="btn btn-primary" disabled>
-                Update Mission
-              </button>
+              <Link href={``}>
+                <button className="btn btn-primary" disabled>
+                  Update Mission
+                </button>
+              </Link>
             )}
           </div>
           <div>
