@@ -1,3 +1,4 @@
+import schedule from "node-schedule";
 import { getUserFromClerkId } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { NextResponse } from "next/server";
@@ -45,7 +46,12 @@ export const PATCH = async (request: Request, { params }) => {
 export const DELETE = async (request: Request, { params }) => {
   try {
     const user = await getUserFromClerkId();
-
+    const job = await prisma.nodeSchedule.findFirst({
+      where: {
+        missionId: params.id,
+      },
+    });
+    schedule.cancelJob(job!.id);
     await prisma.mission.delete({
       where: {
         userId: user.id,

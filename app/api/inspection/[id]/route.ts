@@ -65,50 +65,57 @@ export const GET = async (request: Request, { params }) => {
 
     // Schedule mission inspection at mission.inspectionTime
     const inspectionTime = new Date(nodeSchedule.InspectionTime);
-    const job = schedule.scheduleJob(inspectionTime, async () => {
-      // Update mission status to "inprogress"
-      await prisma.mission.update({
-        where: {
-          id: mission.id,
-        },
-        data: {
-          status: "inprogress",
-        },
-      });
+    const job = schedule.scheduleJob(
+      `${nodeSchedule.id}`,
+      inspectionTime,
+      async () => {
+        // Update mission status to "inprogress"
+        await prisma.mission.update({
+          where: {
+            id: mission.id,
+          },
+          data: {
+            status: "inprogress",
+          },
+        });
 
-      const resArray = [];
-      const result = await performInspection(mission.waypoints, async (log) => {
-        resArray.push(log);
-      });
+        const resArray = [];
+        const result = await performInspection(
+          mission.waypoints,
+          async (log) => {
+            resArray.push(log);
+          }
+        );
 
-      // Create inspection log
-      const newInspection = await prisma.inspectionLog.create({
-        data: {
-          missionId: mission.id,
-          data: resArray,
-        },
-      });
+        // Create inspection log
+        const newInspection = await prisma.inspectionLog.create({
+          data: {
+            missionId: mission.id,
+            data: resArray,
+          },
+        });
 
-      // Update mission status to "completed"
-      await prisma.mission.update({
-        data: {
-          status: "completed",
-        },
-        where: {
-          id: mission.id,
-        },
-      });
+        // Update mission status to "completed"
+        await prisma.mission.update({
+          data: {
+            status: "completed",
+          },
+          where: {
+            id: mission.id,
+          },
+        });
 
-      job.cancel();
+        job.cancel();
 
-      // Delete the NodeSchedule from DB
+        // Delete the NodeSchedule from DB
 
-      await prisma.nodeSchedule.delete({
-        where: {
-          id: nodeSchedule.id,
-        },
-      });
-    });
+        await prisma.nodeSchedule.delete({
+          where: {
+            id: nodeSchedule.id,
+          },
+        });
+      }
+    );
 
     return NextResponse.json({
       msg: `Inspection scheduled for ${mission.name}`,
