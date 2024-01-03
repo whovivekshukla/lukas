@@ -20,12 +20,26 @@ const CreateMissionsPage = () => {
       e.preventDefault();
       setLoading(true);
 
+      const inspectionTimeCheck = new Date(
+        e.target.InspectionTime.value
+      ).toISOString();
+
+      // Check if InspectionTime is in the past
+      const currentTime = new Date().toISOString();
+      if (inspectionTimeCheck < currentTime) {
+        toast.error("Error: The inspection time is in the past.", {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
+        setLoading(false);
+        return;
+      }
+
       const mission = {
         name: e.target.name.value,
         waypoints: JSON.parse(e.target.waypoints.value),
         altitude: parseInt(e.target.altitude.value),
         speed: parseInt(e.target.speed.value),
-        InspectionTime: new Date(e.target.InspectionTime.value).toISOString(),
+        InspectionTime: inspectionTimeCheck,
       };
 
       // Make the API call

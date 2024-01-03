@@ -8,11 +8,17 @@ export const POST = async (request: Request) => {
   try {
     const user = await getUserFromClerkId();
     const missionDataJSON = await request.json();
-    console.log(missionDataJSON.InspectionTime);
     missionDataJSON.status = "pending";
     missionDataJSON.InspectionTime = new Date(
       missionDataJSON.InspectionTime
     ).toISOString();
+
+    const currentTime = new Date().toISOString();
+    if (missionDataJSON.InspectionTime < currentTime) {
+      return NextResponse.json({
+        msg: "Inspection time should be ahead of current time",
+      });
+    }
 
     const missionData = MissionValidation.parse(missionDataJSON);
     const mission = await prisma.mission.create({
