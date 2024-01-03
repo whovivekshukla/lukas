@@ -111,7 +111,7 @@ export const GET = async (request: Request, { params }) => {
     });
 
     return NextResponse.json({
-      msg: `Inspection scheduled for mission ${mission.name}`,
+      msg: `Inspection scheduled for ${mission.name}`,
     });
   } catch (error) {
     console.error("Error creating inspection:", error);
