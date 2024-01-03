@@ -98,7 +98,6 @@ const CreateMissionsPage = () => {
           <label className="label cursor-pointer form-control w-full max-w-xs">
             <input
               type="datetime-local"
-              step={1}
               name="InspectionTime"
               className="input input-bordered input-primary"
               // defaultValue={new Date().toLocaleString()}
