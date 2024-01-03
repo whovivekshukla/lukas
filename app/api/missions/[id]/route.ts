@@ -2,6 +2,7 @@ import schedule from "node-schedule";
 import { getUserFromClerkId } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { NextResponse } from "next/server";
+import { Status } from "@/lib/utils";
 
 export const GET = async (request: Request, { params }) => {
   try {
@@ -14,6 +15,8 @@ export const GET = async (request: Request, { params }) => {
       },
     });
 
+    if (!mission) return NextResponse.json({ msg: "Mission Not Found" });
+
     return NextResponse.json(mission);
   } catch (error) {
     console.error("Error creating mission:", error);
@@ -24,6 +27,25 @@ export const GET = async (request: Request, { params }) => {
 export const PATCH = async (request: Request, { params }) => {
   try {
     const user = await getUserFromClerkId();
+
+    const mission = await prisma.mission.findUnique({
+      where: {
+        id: params.id,
+        userId: user.id,
+      },
+    });
+
+    if (!mission) return NextResponse.json({ msg: "Mission Not Found" });
+
+    if (
+      mission.status === Status.InProgress ||
+      mission.status === Status.Completed
+    ) {
+      return NextResponse.json({
+        msg: "Can't Update, Mission is either in progress or completed!",
+      });
+    }
+
     const missionData = await request.json();
     const updatedMission = await prisma.mission.update({
       where: {
@@ -46,6 +68,14 @@ export const PATCH = async (request: Request, { params }) => {
 export const DELETE = async (request: Request, { params }) => {
   try {
     const user = await getUserFromClerkId();
+    const mission = await prisma.mission.findUnique({
+      where: {
+        userId: user.id,
+        id: params.id,
+      },
+    });
+    if (!mission) return NextResponse.json({ msg: "Mission Not Found" });
+    
     const job = await prisma.nodeSchedule.findFirst({
       where: {
         missionId: params.id,

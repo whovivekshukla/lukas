@@ -47,7 +47,13 @@ export const LocalTime = () => {
   };
   const localDateTime = currentDateTime
     .toLocaleString(undefined, options)
-    .replace(/[.,]/g, "")
+    .replace(/[.,]/g, "");
 
   return localDateTime;
 };
+
+export enum Status {
+  Pending = "pending",
+  InProgress = "inprogress",
+  Completed = "completed",
+}

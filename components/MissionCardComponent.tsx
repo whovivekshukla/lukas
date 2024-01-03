@@ -11,9 +11,9 @@ const MissionCard = ({ mission, onDelete }) => {
         <p className="text-gray-600 font-bold mr-2">Status:</p>
         {<Badge status={mission.status} />}
       </div>
-      <div className="max-h-32 overflow-y-auto">
+      {/* <div className="max-h-32 overflow-y-auto">
         <p className="text-gray-600">{JSON.stringify(mission.waypoints)}</p>
-      </div>
+      </div> */}
       <p className="text-gray-600">Altitude: {mission.altitude}</p>
       <p className="text-gray-600">Speed: {mission.speed}</p>
       <div className="mt-4 flex items-center justify-between">

@@ -30,13 +30,17 @@ const Missions = () => {
 
   const handleDeleteMission = async (missionId) => {
     try {
-      await deleteMission(missionId);
-      toast.error("Mission deleted successfully", {
-        position: toast.POSITION.BOTTOM_RIGHT,
-      });
-      setMissions((prevMissions) =>
-        prevMissions.filter((mission) => mission.id !== missionId)
-      );
+      const deletedMission = await deleteMission(missionId);
+      console.log(deletedMission);
+
+      if (deletedMission) {
+        toast.error(`${deletedMission.msg}`, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
+        setMissions((prevMissions) =>
+          prevMissions.filter((mission) => mission.id !== missionId)
+        );
+      }
     } catch (error) {
       console.error("Error deleting mission:", error);
     }

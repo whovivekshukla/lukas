@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
+import { Status } from "@/lib/utils";
 
 const UpdateMissionsPage = ({ params }) => {
   const router = useRouter();
@@ -21,6 +22,19 @@ const UpdateMissionsPage = ({ params }) => {
       const mission = await getSingleMission(params.id);
       if (!mission) {
         router.push("/not-found");
+      }
+     
+      if (
+        mission.status === Status.Completed ||
+        mission.status === Status.InProgress
+      ) {
+        toast.error(
+          "Mission is either in progress or completed, Cannot update now!",
+          {
+            position: toast.POSITION.BOTTOM_RIGHT,
+          }
+        );
+        router.push(`/missions/${params.id}`);
       }
       setMissionData({
         id: params.id,

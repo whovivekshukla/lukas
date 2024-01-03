@@ -2,44 +2,42 @@
 
 import MissionDetails from "@/components/MissionDetails";
 import Terminal from "@/components/Terminal";
-import {
-  getInspectionLog,
-  getSingleMission,
-  performInspection,
-} from "@/lib/api";
+import { getInspectionLog, getSingleMission } from "@/lib/api";
 import { prisma } from "@/lib/db";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
+import { Status } from "@/lib/utils";
 
 const MissionsPage = ({ params }) => {
   const router = useRouter();
-  const [mission, setMission] = useState(null);
+  const [currentMission, setCurrentMission] = useState(null);
   const [loading, setLoading] = useState(false);
   const [logData, setLogData] = useState(null);
 
-  const getAllData = async (missionId) => {
+  const fetchData = async (missionId) => {
     setLoading(true);
     try {
       const mission = await getSingleMission(missionId);
       if (!mission) {
         router.push("/not-found");
+        return;
       }
-      setMission(mission);
-      const log = await getInspectionLog(missionId);
-      if (!log.log.data) {
+      setCurrentMission(mission);
+      const inspectionLog = await getInspectionLog(missionId);
+      if (!inspectionLog.log.data) {
         setLogData(null);
       }
-      setLogData(log.log.data);
+      setLogData(inspectionLog.log.data);
     } catch (error) {
-      console.log(error);
+      console.error(error);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    getAllData(params.id);
+    fetchData(params.id);
   }, [params.id, router]);
 
   return (
@@ -52,14 +50,21 @@ const MissionsPage = ({ params }) => {
         <div>
           <div className="flex flex-row justify-between items-center mb-8">
             <h1 className="text-3xl font-bold mb-4 flex-grow">
-              {mission?.name}
+              {currentMission?.name}
             </h1>
-            <Link href={`/missions/update/${params.id}`}>
-              <button className="btn btn-primary">Update Mission</button>
-            </Link>
+
+            {currentMission?.status === Status.Pending ? (
+              <Link href={`/missions/update/${params.id}`}>
+                <button className="btn btn-primary">Update Mission</button>
+              </Link>
+            ) : (
+              <button className="btn btn-primary" disabled>
+                Update Mission
+              </button>
+            )}
           </div>
           <div>
-            <MissionDetails missionData={mission} />
+            <MissionDetails missionData={currentMission} />
           </div>
           <div>
             {logData ? (
