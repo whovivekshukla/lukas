@@ -22,7 +22,10 @@ export const POST = async (request: Request) => {
       },
     });
 
-    return NextResponse.json({ message: "Mission created successfully." });
+    return NextResponse.json({
+      message: "Mission created successfully.",
+      id: mission.id,
+    });
   } catch (error) {
     console.error("Error creating mission:", error);
 

@@ -29,6 +29,7 @@ const UpdateMissionsPage = ({ params }) => {
         waypoints: mission.waypoints,
         altitude: mission.altitude,
         speed: mission.speed,
+        InspectionData: mission.InspectionData,
       });
       setLoading(false);
     } catch (error) {
@@ -50,6 +51,7 @@ const UpdateMissionsPage = ({ params }) => {
         waypoints: JSON.parse(e.target.waypoints.value),
         altitude: parseInt(e.target.altitude.value),
         speed: parseInt(e.target.speed.value),
+        InspectionTime: e.target.InspectionTime.value,
       };
 
       const res = await updateMission({ missionData: mission });
@@ -122,6 +124,7 @@ const UpdateMissionsPage = ({ params }) => {
                 type="datetime-local"
                 name="InspectionTime"
                 className="input input-bordered input-primary"
+                defaultValue={missionData.InspectionTime}
                 required
               />
             </label>

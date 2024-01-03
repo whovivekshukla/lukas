@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { auth } from "@clerk/nextjs";
+import { prisma } from "@/lib/db";
 
 export const dynamic = "force-dynamic";
 

@@ -35,13 +35,14 @@ model Mission {
   userId String
   user   User   @relation(fields: [userId], references: [id])
 
-  name      String
-  status    Status    @default(pending)
-  waypoints Json
-  altitude  Int
-  speed     Int
+  name           String
+  status         Status          @default(pending)
+  waypoints      Json
+  altitude       Int
+  speed          Int
   InspectionTime DateTime
-  LogData   InspectionLog[]
+  LogData        InspectionLog[]
+  NodeSchedule   NodeSchedule[]
 
   @@unique([userId, id])
 }
@@ -54,6 +55,18 @@ model InspectionLog {
   missionId String
   mission   Mission @relation(fields: [missionId], references: [id], onDelete: Cascade)
   data      Json
+
+  @@unique([missionId, id])
+}
+
+model NodeSchedule {
+  id        String   @id @default(uuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  missionId      String
+  mission        Mission  @relation(fields: [missionId], references: [id], onDelete: Cascade)
+  InspectionTime DateTime
 
   @@unique([missionId, id])
 }

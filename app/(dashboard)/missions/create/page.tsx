@@ -4,7 +4,7 @@ import ButtonComponent from "@/components/ButtonComponent";
 import InputComponent from "@/components/InputComponent";
 import SelectNewComponent from "@/components/SelectNewComponent";
 import TextAreaComponent from "@/components/TextAreaComponent";
-import { createMission } from "@/lib/api";
+import { createMission, scheduleInspection } from "@/lib/api";
 import { LocalTime, MissionWayPointExample } from "@/lib/utils";
 import { useState } from "react";
 import { toast } from "react-toastify";
@@ -32,8 +32,14 @@ const CreateMissionsPage = () => {
       // Make the API call
       const res = await createMission({ missionData: mission });
 
-      // Check if the response indicates success
-      console.log(res);
+      // scheduling the inspection
+      const inspection = await scheduleInspection(res.id);
+
+      if (inspection) {
+        toast.success(`${inspection.msg}`, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
+      }
 
       if (res && res.message) {
         toast.success(`${res.message}`, {
@@ -95,7 +101,7 @@ const CreateMissionsPage = () => {
               step={1}
               name="InspectionTime"
               className="input input-bordered input-primary"
-              defaultValue={new Date().toLocaleString()}
+              // defaultValue={new Date().toLocaleString()}
               required
             />
           </label>

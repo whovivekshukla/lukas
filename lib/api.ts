@@ -165,49 +165,21 @@ export const performInspection = async (position, logCallback) => {
   }
 };
 
-export const performScheduledInspection = async (mission) => {
-  const user = await getUserFromClerkId();
-  const checkInspectionLog = await prisma.inspectionLog.findFirst({
-    where: {
-      missionId: mission.id,
-      mission: {
-        userId: user.id,
-      },
-    },
-  });
+export const scheduleInspection = async (missionId) => {
+  try {
+    const res = await fetch(
+      new Request(createURL(`/api/inspection/${missionId}`), {
+        method: "GET",
+      })
+    );
 
-  if (checkInspectionLog) {
-    return NextResponse.json({ log: checkInspectionLog });
+    if (res.ok) {
+      const data = await res.json();
+      console.log(data);
+      
+      return data;
+    }
+  } catch (error) {
+    console.log(error);
   }
-  await prisma.mission.update({
-    where: {
-      id: mission.id,
-    },
-    data: {
-      status: "inprogress",
-    },
-  });
-
-  const resArray = [];
-  const result = await performInspection(mission.waypoints, async (log) => {
-    resArray.push(log);
-  });
-
-  const newInspection = await prisma.inspectionLog.create({
-    data: {
-      missionId: mission.id,
-      data: resArray,
-    },
-  });
-
-  await prisma.mission.update({
-    data: {
-      status: "completed",
-    },
-    where: {
-      id: mission.id,
-    },
-  });
-
-  return newInspection;
 };
