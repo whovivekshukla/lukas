@@ -2,10 +2,9 @@
 
 import ButtonComponent from "@/components/ButtonComponent";
 import InputComponent from "@/components/InputComponent";
-import SelectNewComponent from "@/components/SelectNewComponent";
 import TextAreaComponent from "@/components/TextAreaComponent";
 import { createMission, scheduleInspection } from "@/lib/api";
-import { LocalTime, MissionWayPointExample } from "@/lib/utils";
+import { MissionWayPointExample } from "@/lib/utils";
 import { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -26,7 +25,7 @@ const CreateMissionsPage = () => {
         waypoints: JSON.parse(e.target.waypoints.value),
         altitude: parseInt(e.target.altitude.value),
         speed: parseInt(e.target.speed.value),
-        InspectionTime: e.target.InspectionTime.value,
+        InspectionTime: new Date(e.target.InspectionTime.value).toISOString(),
       };
 
       // Make the API call
