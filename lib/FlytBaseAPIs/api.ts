@@ -2,7 +2,7 @@ import axios from "axios";
 
 const createAxiosInstance = () => {
   const instance = axios.create({
-    baseURL: `${process.env.FLY_URL}/api/flytbase/ros/`,
+    baseURL: `${process.env.LUKAS_URL}/api/flytbase/ros/`,
     headers: {
       "Content-Type": "application/json",
       Authorization: process.env.FLYTBASE_AUTHORIZATION,
