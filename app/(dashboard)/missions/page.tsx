@@ -5,7 +5,6 @@ import { getAllMissions, deleteMission } from "@/lib/api"; // Import the deleteM
 import Link from "next/link";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 import MissionCard from "@/components/MissionCardComponent";
 
 const Missions = () => {

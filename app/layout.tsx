@@ -7,8 +7,8 @@ import { fontSans } from "@/lib/font";
 import { ToastContainer } from "react-toastify";
 
 export const metadata: Metadata = {
-  title: "Fly",
-  description: "AI powered Drone Automation SaaS",
+  title: "Lukas",
+  description: "Automate your Drone Inspections",
 };
 
 export default function RootLayout({
