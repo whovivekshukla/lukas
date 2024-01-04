@@ -86,8 +86,10 @@ export const DELETE = async (request: Request, { params }) => {
       where: { missionId: mission.id },
     });
 
-    schedule.cancelJob(job!.id);
-
+    if (job) {
+      schedule.cancelJob(job.id);
+    
+    }
     const deletedMission = await prisma.mission.delete({
       where: { userId: user.id, id: mission.id },
     });
