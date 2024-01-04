@@ -1,10 +1,9 @@
-import schedule from "node-schedule";
+import { accessRequest, armDrone } from "@/lib/FlytBaseAPIs/api";
 
-const YourComponent = () => {
-  const jobs = schedule.scheduledJobs;
-  console.log(jobs);
-
-  return <div>Hello</div>;
+const Test = async () => {
+  const arm = await accessRequest();
+  console.log(arm);
+  
+  return <div>Test</div>;
 };
-
-export default YourComponent;
+export default Test;

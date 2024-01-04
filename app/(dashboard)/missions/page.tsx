@@ -10,6 +10,7 @@ import MissionCard from "@/components/MissionCardComponent";
 
 const Missions = () => {
   const [missions, setMissions] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -22,6 +23,11 @@ const Missions = () => {
         }
       } catch (error) {
         console.error("Error fetching missions:", error);
+        toast.error("Error fetching missions. Please try again later.", {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -34,7 +40,7 @@ const Missions = () => {
       console.log(deletedMission);
 
       if (deletedMission) {
-        toast.error(`${deletedMission.msg}`, {
+        toast.success(`${deletedMission.msg}`, {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
         setMissions((prevMissions) =>
@@ -43,38 +49,40 @@ const Missions = () => {
       }
     } catch (error) {
       console.error("Error deleting mission:", error);
+      toast.error("Error deleting mission. Please try again later.", {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
     }
   };
 
- return (
-   <div className="container mx-auto mt-8">
-     <div className="flex flex-row justify-between items-center mb-8">
-       <h1 className="text-3xl font-bold mb-4 flex-grow">Missions</h1>
-       <Link href={"/missions/create"}>
-         <button className="btn btn-primary">Create Mission</button>
-       </Link>
-     </div>
+  return (
+    <div className="container mx-auto mt-8">
+      <div className="flex flex-row justify-between items-center mb-8">
+        <h1 className="text-3xl font-bold mb-4 flex-grow">Missions</h1>
+        <Link href={"/missions/create"}>
+          <button className="btn btn-primary">Create Mission</button>
+        </Link>
+      </div>
 
-     <div>
-       {missions && missions.length > 0 ? (
-         missions.map((mission, index) => (
-           <MissionCard
-             key={index}
-             mission={mission}
-             onDelete={() => handleDeleteMission(mission.id)}
-           />
-         ))
-       ) : missions === null ? (
-         <div className="flex items-center justify-center">
-           <progress className="progress w-56"></progress>
-         </div>
-       ) : (
-         <p className="text-center text-gray-500">No missions found</p>
-       )}
-     </div>
-   </div>
- );
-
+      <div>
+        {loading ? (
+          <div className="flex items-center justify-center">
+            <progress className="progress w-56"></progress>
+          </div>
+        ) : missions && missions.length > 0 ? (
+          missions.map((mission) => (
+            <MissionCard
+              key={mission.id} // Use a unique identifier as the key
+              mission={mission}
+              onDelete={() => handleDeleteMission(mission.id)}
+            />
+          ))
+        ) : (
+          <p className="text-center text-gray-500">No missions found</p>
+        )}
+      </div>
+    </div>
+  );
 };
 
 export default Missions;

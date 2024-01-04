@@ -3,6 +3,7 @@ import { getUserFromClerkId } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { NextResponse } from "next/server";
 import { Status } from "@/lib/utils";
+import { auth } from "@clerk/nextjs";
 
 export const GET = async (request: Request, { params }) => {
   try {
@@ -67,31 +68,33 @@ export const PATCH = async (request: Request, { params }) => {
 
 export const DELETE = async (request: Request, { params }) => {
   try {
-    const user = await getUserFromClerkId();
+    const userId = auth();
+    const user = await prisma.user.findFirst({
+      where: { clerkId: userId.userId },
+    });
+
+    if (!user) return NextResponse.json({ msg: "User Not Found" });
+    console.log(user);
+
     const mission = await prisma.mission.findUnique({
-      where: {
-        userId: user.id,
-        id: params.id,
-      },
+      where: { id: params.id, userId: user.id },
     });
+
     if (!mission) return NextResponse.json({ msg: "Mission Not Found" });
-    
+
     const job = await prisma.nodeSchedule.findFirst({
-      where: {
-        missionId: params.id,
-      },
+      where: { missionId: mission.id },
     });
+
     schedule.cancelJob(job!.id);
-    await prisma.mission.delete({
-      where: {
-        userId: user.id,
-        id: params.id,
-      },
+
+    const deletedMission = await prisma.mission.delete({
+      where: { userId: user.id, id: mission.id },
     });
 
     return NextResponse.json({ msg: "Mission Deleted!" });
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ msg: "Problem in Deleting Mission" });
+    return NextResponse.json({ msg: "Something went wrong!" });
   }
 };

@@ -6,6 +6,7 @@ import {
   setRTL,
   land,
   disarmDrone,
+  accessRequest,
 } from "./FlytBaseAPIs/api";
 import { prisma } from "./db";
 import { getUserFromClerkId } from "./auth";
@@ -122,6 +123,11 @@ export const getInspectionLog = async (missionId) => {
 export const performInspection = async (position, logCallback) => {
   let resArray = [];
   try {
+    resArray.push(" Access Request");
+    logCallback(" Access Request...");
+    const accessRequestRes = await accessRequest();
+    logCallback(accessRequestRes);
+
     resArray.push("Starting Inspection...");
     logCallback("Starting Inspection...");
     const armDroneRes = await armDrone();
@@ -176,7 +182,7 @@ export const scheduleInspection = async (missionId) => {
     if (res.ok) {
       const data = await res.json();
       console.log(data);
-      
+
       return data;
     }
   } catch (error) {

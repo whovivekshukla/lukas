@@ -45,7 +45,7 @@ const DashboardLayout = ({ children }) => {
         </div>
         <div className="navbar-center">
           <div className="btn btn-ghost text-2xl">
-            <Link href="/missions">Fly</Link>
+            <Link href="/missions">Lukas</Link>
           </div>
         </div>
         <div className="navbar-end">
