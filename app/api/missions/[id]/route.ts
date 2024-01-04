@@ -74,7 +74,6 @@ export const DELETE = async (request: Request, { params }) => {
     });
 
     if (!user) return NextResponse.json({ msg: "User Not Found" });
-    console.log(user);
 
     const mission = await prisma.mission.findUnique({
       where: { id: params.id, userId: user.id },

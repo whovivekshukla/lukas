@@ -36,7 +36,6 @@ const Missions = () => {
   const handleDeleteMission = async (missionId) => {
     try {
       const deletedMission = await deleteMission(missionId);
-      console.log(deletedMission);
 
       if (deletedMission) {
         toast.success(`${deletedMission.msg}`, {
