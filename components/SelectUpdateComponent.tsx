@@ -9,7 +9,7 @@ const SelectUpdateComponent = ({ label, options, name, defaultValue }) => {
           {options.map((option) => (
             <option
               key={option}
-              value={option}
+              defaultValue={option}
               selected={option === defaultValue}
             >
               {option}

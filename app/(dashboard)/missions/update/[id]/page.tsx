@@ -9,7 +9,8 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
-import { Status } from "@/lib/utils";
+import { Status, parseTime } from "@/lib/utils";
+import { parse } from "path";
 
 const UpdateMissionsPage = ({ params }) => {
   const router = useRouter();
@@ -22,8 +23,9 @@ const UpdateMissionsPage = ({ params }) => {
       const mission = await getSingleMission(params.id);
       if (!mission) {
         router.push("/not-found");
+        return;
       }
-     
+
       if (
         mission.status === Status.Completed ||
         mission.status === Status.InProgress
@@ -35,7 +37,11 @@ const UpdateMissionsPage = ({ params }) => {
           }
         );
         router.push(`/missions/${params.id}`);
+        return;
       }
+
+      console.log(new Date(mission.InspectionTime).toISOString());
+
       setMissionData({
         id: params.id,
         name: mission.name,
@@ -43,11 +49,14 @@ const UpdateMissionsPage = ({ params }) => {
         waypoints: mission.waypoints,
         altitude: mission.altitude,
         speed: mission.speed,
-        InspectionData: mission.InspectionData,
+        InspectionTime: new Date(mission.InspectionTime),
       });
       setLoading(false);
     } catch (error) {
-      console.log(error);
+      console.error("Error fetching mission data:", error);
+      toast.error(`${error}`, {
+        position: toast.POSITION.BOTTOM_RIGHT,
+      });
     }
   };
 
@@ -90,7 +99,7 @@ const UpdateMissionsPage = ({ params }) => {
     <div className="flex flex-col items-center justify-center py-8 bg-slate-200">
       <div className="my-8">
         <h2 className="text-2xl">
-          {loading ? (
+          {loading && !missionData ? (
             <div className="flex items-center justify-center">
               <progress className="progress w-56"></progress>
             </div>
@@ -100,7 +109,7 @@ const UpdateMissionsPage = ({ params }) => {
         </h2>
       </div>
 
-      {!loading && (
+      {!loading && missionData && (
         <div>
           <form onSubmit={handleSubmit}>
             <InputComponent
@@ -136,9 +145,12 @@ const UpdateMissionsPage = ({ params }) => {
             <label className="label cursor-pointer form-control w-full max-w-xs">
               <input
                 type="datetime-local"
+                step={1}
                 name="InspectionTime"
                 className="input input-bordered input-primary"
-                defaultValue={missionData.InspectionData}
+                defaultValue={new Date(missionData.InspectionTime)
+                  .toISOString()
+                  .slice(0, 16)}
                 required
               />
             </label>

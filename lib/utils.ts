@@ -35,21 +35,16 @@ export let MissionWayPointExample = [
   },
 ];
 
-export const LocalTime = () => {
-  const currentDateTime = new Date();
-  const options = {
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-  };
-  const localDateTime = currentDateTime
-    .toLocaleString(undefined, options)
-    .replace(/[.,]/g, "");
+export const parseTime = (time) => {
+  const InputInspectionTime = new Date(time);
 
-  return localDateTime;
+  const year = InputInspectionTime.getFullYear();
+  const month = String(InputInspectionTime.getMonth() + 1).padStart(2, "0");
+  const day = String(InputInspectionTime.getDate()).padStart(2, "0");
+  const hour = String(InputInspectionTime.getHours()).padStart(2, "0");
+  const minute = String(InputInspectionTime.getMinutes()).padStart(2, "0");
+
+  return `${year}-${month}-${day}T${hour}:${minute}`;
 };
 
 export enum Status {
