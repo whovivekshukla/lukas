@@ -46,32 +46,35 @@ const Missions = () => {
     }
   };
 
-  return (
-    <div className="container mx-auto mt-8">
-      <div className="flex flex-row justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold mb-4 flex-grow">Missions</h1>
-        <Link href={"/missions/create"}>
-          <button className="btn btn-primary">Create Mission</button>
-        </Link>
-      </div>
+ return (
+   <div className="container mx-auto mt-8">
+     <div className="flex flex-row justify-between items-center mb-8">
+       <h1 className="text-3xl font-bold mb-4 flex-grow">Missions</h1>
+       <Link href={"/missions/create"}>
+         <button className="btn btn-primary">Create Mission</button>
+       </Link>
+     </div>
 
-      <div>
-        {missions ? (
-          missions.map((mission, index) => (
-            <MissionCard
-              key={index}
-              mission={mission}
-              onDelete={() => handleDeleteMission(mission.id)}
-            />
-          ))
-        ) : (
-          <div className="flex items-center justify-center">
-            <progress className="progress w-56"></progress>
-          </div>
-        )}
-      </div>
-    </div>
-  );
+     <div>
+       {missions && missions.length > 0 ? (
+         missions.map((mission, index) => (
+           <MissionCard
+             key={index}
+             mission={mission}
+             onDelete={() => handleDeleteMission(mission.id)}
+           />
+         ))
+       ) : missions === null ? (
+         <div className="flex items-center justify-center">
+           <progress className="progress w-56"></progress>
+         </div>
+       ) : (
+         <p className="text-center text-gray-500">No missions found</p>
+       )}
+     </div>
+   </div>
+ );
+
 };
 
 export default Missions;

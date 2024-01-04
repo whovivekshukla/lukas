@@ -12,7 +12,7 @@ export default async function Home() {
       <div>
         <h1 className="text-4xl font-bold text-center">Fly</h1>
         <p className="py-2">
-          Your own Drone Inspection SaaS powered by Artificial Intelligence
+          Automate your Drone Inspections
         </p>
       </div>
 
