@@ -60,6 +60,7 @@ const CreateMissionsPage = () => {
       }
     } catch (error) {
       // Handle any unexpected errors
+
       toast.error(`An error occurred: ${error.message}`, {
         position: toast.POSITION.BOTTOM_RIGHT,
       });

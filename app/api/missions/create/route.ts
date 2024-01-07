@@ -38,8 +38,6 @@ export const POST = async (request: Request) => {
     }
 
     // schedule the cron job
-    console.log(changedDateFormat(mission.InspectionTime));
-    console.log(generateScheduleProperty(mission.InspectionTime));
 
     const jobData = {
       job: {
@@ -56,6 +54,7 @@ export const POST = async (request: Request) => {
     await prisma.mission.update({
       where: {
         id: mission.id,
+        userId: user.id,
       },
       data: {
         cronJobId: cronJobData.jobId,
