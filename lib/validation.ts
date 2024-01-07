@@ -58,4 +58,5 @@ export const MissionValidation = z.object({
     invalid_type_error: "speed must be a number",
   }),
   InspectionTime: z.string().datetime({ message: "Invalid date." }),
+  cronJobId: z.number().optional(),
 });

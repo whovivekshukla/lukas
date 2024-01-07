@@ -1,9 +1,10 @@
-import { accessRequest, armDrone } from "@/lib/FlytBaseAPIs/api";
+import { changedDateFormat, generateScheduleProperty } from "@/lib/utils";
 
-const Test = async () => {
-  const arm = await accessRequest();
-  console.log(arm);
+const TestPage = () => {
+  const someDate = new Date().toISOString();
+  console.log(generateScheduleProperty(someDate));
   
-  return <div>Test</div>;
+
+  return <div>TestPage</div>;
 };
-export default Test;
+export default TestPage;

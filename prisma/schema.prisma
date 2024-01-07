@@ -39,8 +39,8 @@ model Mission {
   altitude       Int
   speed          Int
   InspectionTime DateTime
+  cronJobId      Int?
   LogData        InspectionLog[]
-  NodeSchedule   NodeSchedule[]
 
   @@unique([userId, id])
 }
@@ -53,18 +53,6 @@ model InspectionLog {
   missionId String
   mission   Mission @relation(fields: [missionId], references: [id], onDelete: Cascade)
   data      Json
-
-  @@unique([missionId, id])
-}
-
-model NodeSchedule {
-  id        String   @id @default(uuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  missionId      String
-  mission        Mission  @relation(fields: [missionId], references: [id], onDelete: Cascade)
-  InspectionTime DateTime
 
   @@unique([missionId, id])
 }

@@ -2,38 +2,24 @@ import { performInspection } from "@/lib/api";
 import { auth } from "@clerk/nextjs";
 import { prisma } from "@/lib/db";
 import { NextResponse } from "next/server";
-import schedule from "node-schedule";
 
 export const GET = async (request: Request, { params }) => {
   try {
-    const userId = auth();
-    const user = await prisma.user.findFirst({
-      where: {
-        clerkId: userId.userId,
-      },
-    });
 
-    if (!user) {
-      return NextResponse.json({ msg: "User Not Found" });
-    }
 
     const mission = await prisma.mission.findUnique({
       where: {
-        userId: user.id,
         id: params.id,
       },
     });
 
-    if (!mission || mission.userId !== user.id) {
+    if (!mission) {
       return NextResponse.json({ msg: "Mission Not Found" });
     }
 
     const checkInspectionLog = await prisma.inspectionLog.findFirst({
       where: {
         missionId: mission.id,
-        mission: {
-          userId: user.id,
-        },
       },
     });
 
@@ -56,66 +42,37 @@ export const GET = async (request: Request, { params }) => {
       });
     }
 
-    const nodeSchedule = await prisma.nodeSchedule.create({
+    await prisma.mission.update({
+      where: {
+        id: mission.id,
+      },
       data: {
-        missionId: mission.id,
-        InspectionTime: mission.InspectionTime,
+        status: "inprogress",
       },
     });
 
-    // Schedule mission inspection at mission.inspectionTime
-    const inspectionTime = new Date(nodeSchedule.InspectionTime);
-    const job = schedule.scheduleJob(
-      `${nodeSchedule.id}`,
-      inspectionTime,
-      async () => {
-        // Update mission status to "inprogress"
-        await prisma.mission.update({
-          where: {
-            id: mission.id,
-          },
-          data: {
-            status: "inprogress",
-          },
-        });
+    const resArray = [];
+    const result = await performInspection(mission.waypoints, async (log) => {
+      resArray.push(log);
+    });
 
-        const resArray = [];
-        const result = await performInspection(
-          mission.waypoints,
-          async (log) => {
-            resArray.push(log);
-          }
-        );
+    // Create inspection log
+    const newInspection = await prisma.inspectionLog.create({
+      data: {
+        missionId: mission.id,
+        data: resArray,
+      },
+    });
 
-        // Create inspection log
-        const newInspection = await prisma.inspectionLog.create({
-          data: {
-            missionId: mission.id,
-            data: resArray,
-          },
-        });
-
-        // Update mission status to "completed"
-        await prisma.mission.update({
-          data: {
-            status: "completed",
-          },
-          where: {
-            id: mission.id,
-          },
-        });
-
-        job.cancel();
-
-        // Delete the NodeSchedule from DB
-
-        await prisma.nodeSchedule.delete({
-          where: {
-            id: nodeSchedule.id,
-          },
-        });
-      }
-    );
+    // Update mission status to "completed"
+    await prisma.mission.update({
+      data: {
+        status: "completed",
+      },
+      where: {
+        id: mission.id,
+      },
+    });
 
     return NextResponse.json({
       msg: `Inspection scheduled for ${mission.name}`,

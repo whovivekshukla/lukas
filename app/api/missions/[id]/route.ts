@@ -17,7 +17,8 @@ export const GET = async (request: Request, { params }) => {
     });
 
     if (!mission) return NextResponse.json({ msg: "Mission Not Found" });
-
+    console.log(mission.InspectionTime);
+    
     return NextResponse.json(mission);
   } catch (error) {
     console.error("Error creating mission:", error);
@@ -81,14 +82,6 @@ export const DELETE = async (request: Request, { params }) => {
 
     if (!mission) return NextResponse.json({ msg: "Mission Not Found" });
 
-    const job = await prisma.nodeSchedule.findFirst({
-      where: { missionId: mission.id },
-    });
-
-    if (job) {
-      schedule.cancelJob(job.id);
-    
-    }
     const deletedMission = await prisma.mission.delete({
       where: { userId: user.id, id: mission.id },
     });

@@ -45,15 +45,6 @@ const CreateMissionsPage = () => {
       // Make the API call
       const res = await createMission({ missionData: mission });
 
-      // scheduling the inspection
-      const inspection = await scheduleInspection(res.id);
-
-      if (inspection) {
-        toast.success(`${inspection.msg}`, {
-          position: toast.POSITION.BOTTOM_RIGHT,
-        });
-      }
-
       if (res && res.message) {
         toast.success(`${res.message}`, {
           position: toast.POSITION.BOTTOM_RIGHT,

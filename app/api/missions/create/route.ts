@@ -3,6 +3,8 @@ import { prisma } from "@/lib/db";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { MissionValidation } from "@/lib/validation";
+import { createCronJob } from "@/lib/CronJobAPIs/api";
+import { changedDateFormat, generateScheduleProperty } from "@/lib/utils";
 
 export const POST = async (request: Request) => {
   try {
@@ -21,10 +23,42 @@ export const POST = async (request: Request) => {
     }
 
     const missionData = MissionValidation.parse(missionDataJSON);
+
     const mission = await prisma.mission.create({
       data: {
         userId: user.id,
         ...missionData,
+      },
+    });
+
+    if (!mission) {
+      return NextResponse.json({
+        msg: "Mission not created",
+      });
+    }
+
+    // schedule the cron job
+    console.log(changedDateFormat(mission.InspectionTime));
+    console.log(generateScheduleProperty(mission.InspectionTime));
+
+    const jobData = {
+      job: {
+        title: mission.name,
+        enabled: true,
+        url: `${process.env.LUKAS_URL}/api/inspection/${mission.id}`,
+        saveResponses: true,
+        schedule: generateScheduleProperty(mission.InspectionTime),
+      },
+    };
+
+    const cronJobData = await createCronJob(jobData);
+
+    await prisma.mission.update({
+      where: {
+        id: mission.id,
+      },
+      data: {
+        cronJobId: cronJobData.jobId,
       },
     });
 
