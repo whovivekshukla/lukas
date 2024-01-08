@@ -3,7 +3,6 @@ import { auth } from "@clerk/nextjs";
 import { prisma } from "@/lib/db";
 import { NextResponse } from "next/server";
 
-export const runtime = "edge";
 
 export const GET = async (request: Request, { params }) => {
   try {
