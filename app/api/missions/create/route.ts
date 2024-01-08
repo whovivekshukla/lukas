@@ -43,7 +43,7 @@ export const POST = async (request: Request) => {
       job: {
         title: mission.name,
         enabled: true,
-        url: `${process.env.LUKAS_URL}/api/inspection/${mission.id}`,
+        url: `${process.env.LUKAS_INSPECTION_URL}/api/inspection/${mission.id}`,
         saveResponses: true,
         schedule: generateScheduleProperty(mission.InspectionTime),
       },
