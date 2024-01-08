@@ -5,6 +5,7 @@ import { z } from "zod";
 import { MissionValidation } from "@/lib/validation";
 import { createCronJob } from "@/lib/CronJobAPIs/api";
 import { changedDateFormat, generateScheduleProperty } from "@/lib/utils";
+import { v4 as uuidv4 } from "uuid";
 
 export const POST = async (request: Request) => {
   try {
@@ -39,6 +40,8 @@ export const POST = async (request: Request) => {
 
     // schedule the cron job
 
+    const token = uuidv4();
+
     const jobData = {
       job: {
         title: mission.name,
@@ -46,6 +49,11 @@ export const POST = async (request: Request) => {
         url: `${process.env.LUKAS_INSPECTION_URL}/api/inspection/${mission.id}`,
         saveResponses: true,
         schedule: generateScheduleProperty(mission.InspectionTime),
+        extendedData: {
+          headers: {
+            Authorization: `${token}`,
+          },
+        },
       },
     };
 
@@ -58,6 +66,7 @@ export const POST = async (request: Request) => {
       },
       data: {
         cronJobId: cronJobData.jobId,
+        cronJobToken: token,
       },
     });
 
