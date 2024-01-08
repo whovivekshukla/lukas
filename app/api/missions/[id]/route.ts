@@ -16,9 +16,7 @@ export const GET = async (request: Request, { params }) => {
       },
     });
 
-    if (!mission) return NextResponse.json({ msg: "Mission Not Found" });
-    console.log(mission.InspectionTime);
-    
+    if (!mission) return NextResponse.json({ err: "Mission Not Found" });
     return NextResponse.json(mission);
   } catch (error) {
     console.error("Error creating mission:", error);
@@ -44,7 +42,7 @@ export const PATCH = async (request: Request, { params }) => {
       mission.status === Status.Completed
     ) {
       return NextResponse.json({
-        msg: "Can't Update, Mission is either in progress or completed!",
+        err: "Can't Update, Mission is either in progress or completed!",
       });
     }
 

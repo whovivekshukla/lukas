@@ -6,8 +6,11 @@ import Link from "next/link";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import MissionCard from "@/components/MissionCardComponent";
+import { useRouter } from "next/navigation";
 
 const Missions = () => {
+  const router = useRouter();
+
   const [missions, setMissions] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -15,6 +18,7 @@ const Missions = () => {
     const fetchData = async () => {
       try {
         const res = await getAllMissions();
+
         if (Array.isArray(res)) {
           setMissions(res);
         } else {

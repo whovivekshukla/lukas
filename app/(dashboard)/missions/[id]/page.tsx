@@ -19,7 +19,8 @@ const MissionsPage = ({ params }) => {
     setLoading(true);
     try {
       const mission = await getSingleMission(missionId);
-      if (!mission) {
+
+      if (mission.err) {
         router.push("/not-found");
         return;
       }
