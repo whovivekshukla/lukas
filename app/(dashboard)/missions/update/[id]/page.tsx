@@ -39,9 +39,6 @@ const UpdateMissionsPage = ({ params }) => {
         return;
       }
 
-      console.log(new Date(mission.InspectionTime).toISOString());
-      console.log(new Date(mission.InspectionTime).toISOString().slice(0, 16));
-
       setMissionData({
         id: params.id,
         name: mission.name,
