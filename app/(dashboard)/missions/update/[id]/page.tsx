@@ -9,8 +9,7 @@ import { useEffect, useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
-import { Status, parseTime } from "@/lib/utils";
-import { parse } from "path";
+import { Status } from "@/lib/utils";
 
 const UpdateMissionsPage = ({ params }) => {
   const router = useRouter();
@@ -41,6 +40,7 @@ const UpdateMissionsPage = ({ params }) => {
       }
 
       console.log(new Date(mission.InspectionTime).toISOString());
+      console.log(new Date(mission.InspectionTime).toISOString().slice(0, 16));
 
       setMissionData({
         id: params.id,
@@ -148,12 +148,10 @@ const UpdateMissionsPage = ({ params }) => {
                 step={1}
                 name="InspectionTime"
                 className="input input-bordered input-primary"
-                defaultValue={new Date(missionData.InspectionTime)
-                  .toISOString()
-                  .slice(0, 16)}
                 required
               />
             </label>
+
             <div className="mt-4">
               <ButtonComponent
                 disabled={updateButtonLoading}

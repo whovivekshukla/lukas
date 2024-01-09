@@ -4,6 +4,7 @@ import { prisma } from "@/lib/db";
 import { NextResponse } from "next/server";
 import { Status } from "@/lib/utils";
 import { auth } from "@clerk/nextjs";
+import { MissionValidation } from "@/lib/validation";
 
 export const GET = async (request: Request, { params }) => {
   try {
@@ -46,7 +47,8 @@ export const PATCH = async (request: Request, { params }) => {
       });
     }
 
-    const missionData = await request.json();
+    const missionDataJSON = await request.json();
+    const missionData = MissionValidation.parse(missionDataJSON);
     const updatedMission = await prisma.mission.update({
       where: {
         userId: user.id,
