@@ -49,14 +49,19 @@ export const MissionValidation = z.object({
       }),
     })
   ),
-  altitude: z.number({
-    required_error: "altitude is required",
-    invalid_type_error: "altitude must be a number",
-  }),
-  speed: z.number({
-    required_error: "speed is required",
-    invalid_type_error: "speed must be a number",
-  }),
+  altitude: z
+    .number({
+      required_error: "altitude is required",
+      invalid_type_error: "altitude must be a number",
+    })
+    .positive({ message: "altitude must be positive" }),
+  speed: z
+    .number({
+      required_error: "speed is required",
+      invalid_type_error: "speed must be a number",
+    })
+    .positive({ message: "speed must be positive" }),
+
   InspectionTime: z.string().datetime({ message: "Invalid date." }),
   cronJobId: z.number().optional(),
 });

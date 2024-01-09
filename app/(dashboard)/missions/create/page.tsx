@@ -81,7 +81,6 @@ const CreateMissionsPage = () => {
             labelName={"Mission name:"}
             type={"text"}
             name={"name"}
-            value={"Drone Investigation"}
           />
           <TextAreaComponent
             label={"Waypoints"}
@@ -92,14 +91,8 @@ const CreateMissionsPage = () => {
             labelName={"Altitude:"}
             type={"number"}
             name={"altitude"}
-            value={0}
           />
-          <InputComponent
-            labelName={"Speed:"}
-            value={0}
-            type={"number"}
-            name={"speed"}
-          />
+          <InputComponent labelName={"Speed:"} type={"number"} name={"speed"} />
           <label className="label cursor-pointer form-control w-full max-w-xs">
             <input
               type="datetime-local"
