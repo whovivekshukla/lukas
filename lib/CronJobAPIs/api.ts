@@ -23,3 +23,24 @@ export const createCronJob = async (jobData) => {
     console.error("Error creating cron job:", error);
   }
 };
+
+
+export const deleteCronJob = async (cronJobId) => {
+  try {
+    const res = await fetch(`https://api.cron-job.org/jobs/${cronJobId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${process.env.CRON_JOB_API_KEY}`,
+      },
+    });
+
+    if (res.ok) {
+      const responseData = await res.json();
+      return responseData;
+    } else {
+      console.error("Failed to delete cron job:", res.status, res.statusText);
+    }
+  } catch (error) {
+    console.error("Error deleting cron job:", error);
+  }
+};

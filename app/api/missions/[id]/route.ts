@@ -5,6 +5,7 @@ import { NextResponse } from "next/server";
 import { Status } from "@/lib/utils";
 import { auth } from "@clerk/nextjs";
 import { MissionValidation } from "@/lib/validation";
+import { deleteCronJob } from "@/lib/CronJobAPIs/api";
 
 export const GET = async (request: Request, { params }) => {
   try {
@@ -85,6 +86,8 @@ export const DELETE = async (request: Request, { params }) => {
     const deletedMission = await prisma.mission.delete({
       where: { userId: user.id, id: mission.id },
     });
+
+    await deleteCronJob(mission.cronJobId);
 
     return NextResponse.json({ msg: "Mission Deleted!" });
   } catch (error) {
