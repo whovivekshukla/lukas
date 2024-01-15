@@ -20,7 +20,7 @@ const UpdateMissionsPage = ({ params }) => {
   const getData = async () => {
     try {
       const mission = await getSingleMission(params.id);
-      if (!mission) {
+      if (mission.status === 404) {
         router.push("/not-found");
         return;
       }

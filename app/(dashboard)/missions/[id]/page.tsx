@@ -3,7 +3,6 @@
 import MissionDetails from "@/components/MissionDetails";
 import Terminal from "@/components/Terminal";
 import { getInspectionLog, getSingleMission } from "@/lib/api";
-import { prisma } from "@/lib/db";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
@@ -26,10 +25,11 @@ const MissionsPage = ({ params }) => {
       }
       setCurrentMission(mission);
       const inspectionLog = await getInspectionLog(missionId);
-      if (!inspectionLog.log.data) {
+      if (!inspectionLog.log || !inspectionLog.log.data) {
         setLogData(null);
+      } else {
+        setLogData(inspectionLog.log.data);
       }
-      setLogData(inspectionLog.log.data);
     } catch (error) {
       console.error(error);
     } finally {

@@ -1,4 +1,3 @@
-import schedule from "node-schedule";
 import { getUserFromClerkId } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { NextResponse } from "next/server";
@@ -18,7 +17,9 @@ export const GET = async (request: Request, { params }) => {
       },
     });
 
-    if (!mission) return NextResponse.json({ err: "Mission Not Found" });
+    if (!mission) {
+      return NextResponse.json({ err: "Mission Not Found" });
+    }
     return NextResponse.json(mission);
   } catch (error) {
     console.error("Error creating mission:", error);
@@ -83,11 +84,11 @@ export const DELETE = async (request: Request, { params }) => {
 
     if (!mission) return NextResponse.json({ msg: "Mission Not Found" });
 
+    await deleteCronJob(mission.cronJobId);
+
     const deletedMission = await prisma.mission.delete({
       where: { userId: user.id, id: mission.id },
     });
-
-    await deleteCronJob(mission.cronJobId);
 
     return NextResponse.json({ msg: "Mission Deleted!" });
   } catch (error) {
