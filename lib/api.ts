@@ -189,3 +189,21 @@ export const scheduleInspection = async (missionId) => {
     console.log(error);
   }
 };
+
+export const getPastInspections = async () => {
+  try {
+    const res = await fetch(
+      new Request(createURL("/api/inspection"), {
+        method: "GET",
+      })
+    );
+
+    if (res.ok) {
+      const data = await res.json();
+
+      return data;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};

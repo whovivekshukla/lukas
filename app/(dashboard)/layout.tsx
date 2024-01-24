@@ -2,7 +2,7 @@ import { UserButton } from "@clerk/nextjs";
 import Link from "next/link";
 const DashboardLayout = ({ children }) => {
   return (
-    <div>
+    <div className="mt-8">
       <div className="navbar bg-base-100 fixed w-full top-0 z-[1000]">
         <div className="navbar-start">
           <div className="dropdown">
@@ -38,6 +38,11 @@ const DashboardLayout = ({ children }) => {
               <li>
                 <Link href={"/missions"}>
                   <p>Missions</p>
+                </Link>
+              </li>
+                  <li>
+                <Link href={"/inspections"}>
+                  <p>Past Inspections</p>
                 </Link>
               </li>
             </ul>

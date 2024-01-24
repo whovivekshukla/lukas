@@ -42,7 +42,7 @@ const MissionsPage = ({ params }) => {
   }, [params.id, router]);
 
   return (
-    <div className="container mx-auto mt-8">
+    <div className="container mx-auto">
       {loading ? (
         <div className="flex items-center justify-center">
           <progress className="progress w-56"></progress>
