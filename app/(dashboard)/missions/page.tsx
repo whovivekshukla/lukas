@@ -72,13 +72,15 @@ const Missions = () => {
             <progress className="progress w-56"></progress>
           </div>
         ) : missions && missions.length > 0 ? (
-          missions.map((mission) => (
-            <MissionCard
-              key={mission.id} // Use a unique identifier as the key
-              mission={mission}
-              onDelete={() => handleDeleteMission(mission.id)}
-            />
-          ))
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {missions.map((mission) => (
+              <MissionCard
+                key={mission.id}
+                mission={mission}
+                onDelete={() => handleDeleteMission(mission.id)}
+              />
+            ))}
+          </div>
         ) : (
           <p className="text-center text-gray-500">No missions found</p>
         )}
