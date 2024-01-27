@@ -19,6 +19,16 @@ export default async function Home() {
           <button className="btn btn-neutral text-white">Get Started</button>
         </Link>
       </div>
+
+      {!userId && (
+        <div className="p-2">
+          <Link href="/temp-account">
+            <button className="text-blue-500">
+              Try out with a temp account!
+            </button>
+          </Link>
+        </div>
+      )}
     </div>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useSignIn } from "@clerk/nextjs";
+import { useSignIn, currentUser } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
 
 export default function SignInForm() {
