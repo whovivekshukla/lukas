@@ -69,6 +69,7 @@ const UpdateMissionsPage = ({ params }) => {
       const mission = {
         id: params.id,
         name: e.target.name.value,
+        status: missionData.status,
         waypoints: JSON.parse(e.target.waypoints.value),
         altitude: parseInt(e.target.altitude.value),
         speed: parseInt(e.target.speed.value),
@@ -76,8 +77,10 @@ const UpdateMissionsPage = ({ params }) => {
       };
 
       const res = await updateMission({ missionData: mission });
+      console.log(res);
+
       if (res) {
-        toast.success("Mission Updated Successfully", {
+        toast.success(res.message, {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
         getData();

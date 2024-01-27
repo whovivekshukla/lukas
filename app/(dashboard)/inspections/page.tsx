@@ -38,9 +38,11 @@ const PastInspections = () => {
             <progress className="progress w-56"></progress>
           </div>
         ) : pastInspections.length === 0 ? (
-          <p>No past inspections available</p>
+          <p className="flex items-center justify-center">
+            No past inspections available
+          </p>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12">
             {pastInspections.map((mission) => (
               <InspectionCard key={mission.id} mission={mission} />
             ))}

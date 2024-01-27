@@ -38,7 +38,7 @@ export const PATCH = async (request: Request, { params }) => {
       },
     });
 
-    if (!mission) return NextResponse.json({ msg: "Mission Not Found" });
+    if (!mission) return NextResponse.json({ message: "Mission Not Found" });
 
     if (
       mission.status === Status.InProgress ||
@@ -65,7 +65,7 @@ export const PATCH = async (request: Request, { params }) => {
     return NextResponse.json(updatedMission);
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ msg: "Error Updating Mission" });
+    return NextResponse.json({ message: "Error Updating Mission" });
   }
 };
 
@@ -76,13 +76,13 @@ export const DELETE = async (request: Request, { params }) => {
       where: { clerkId: userId.userId },
     });
 
-    if (!user) return NextResponse.json({ msg: "User Not Found" });
+    if (!user) return NextResponse.json({ message: "User Not Found" });
 
     const mission = await prisma.mission.findUnique({
       where: { id: params.id, userId: user.id },
     });
 
-    if (!mission) return NextResponse.json({ msg: "Mission Not Found" });
+    if (!mission) return NextResponse.json({ message: "Mission Not Found" });
 
     await deleteCronJob(mission.cronJobId);
 
@@ -90,9 +90,9 @@ export const DELETE = async (request: Request, { params }) => {
       where: { userId: user.id, id: mission.id },
     });
 
-    return NextResponse.json({ msg: "Mission Deleted!" });
+    return NextResponse.json({ message: "Mission Deleted!" });
   } catch (error) {
     console.error(error);
-    return NextResponse.json({ msg: "Something went wrong!" });
+    return NextResponse.json({ message: "Something went wrong!" });
   }
 };

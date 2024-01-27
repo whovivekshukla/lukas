@@ -23,9 +23,5 @@ export const GET = async (req: Request, res: Response) => {
       { status: 500 }
     );
 
-  if (mission.length === 0) {
-    return NextResponse.json({ message: "No mission found" }, { status: 404 });
-  }
-
   return NextResponse.json({ mission }, { status: 200 });
 };

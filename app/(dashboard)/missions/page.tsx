@@ -41,8 +41,15 @@ const Missions = () => {
     try {
       const deletedMission = await deleteMission(missionId);
 
+      if (deletedMission.message === "Demo Only!") {
+        toast.error(`${deletedMission.message}`, {
+          position: toast.POSITION.BOTTOM_RIGHT,
+        });
+        return;
+      }
+
       if (deletedMission) {
-        toast.success(`${deletedMission.msg}`, {
+        toast.success(`${deletedMission.message}`, {
           position: toast.POSITION.BOTTOM_RIGHT,
         });
         setMissions((prevMissions) =>
