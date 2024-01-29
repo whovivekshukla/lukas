@@ -56,12 +56,14 @@ const MissionDetails = ({ missionData, logData }) => {
           </div>
         </div>
 
-        <div>
-          <h3 className="text-lg font-semibold mb-2">Video Objects:</h3>
-          {logData.videoObjectDetectionData.map((videoObject, index) => (
-            <span key={index}>{videoObject}, </span>
-          ))}
-        </div>
+        {logData && (
+          <div>
+            <h3 className="text-lg font-semibold mb-2">Video Objects:</h3>
+            {logData.videoObjectDetectionData.map((videoObject, index) => (
+              <span key={index}>{videoObject}, </span>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
