@@ -54,6 +54,9 @@ model InspectionLog {
   missionId String
   mission   Mission @relation(fields: [missionId], references: [id], onDelete: Cascade)
   data      Json
+  videoURL String
+  videoObjectDetectionData Json
+
 
   @@unique([missionId, id])
 }

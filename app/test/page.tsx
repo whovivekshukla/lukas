@@ -1,7 +1,8 @@
-import { getCronJob } from "@/lib/CronJobAPIs/api";
+import { analyzeVideo } from "@/lib/VideoIntelligenceAPI/api";
 
 const TestPage = async () => {
-  console.log(await getCronJob(4805783));
+  const res = await analyzeVideo();
+  console.log(res);
 
   return <div>TestPage</div>;
 };

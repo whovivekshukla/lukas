@@ -17,7 +17,7 @@ const Terminal = ({ logs }) => {
         ref={terminalRef}
         className="h-96 overflow-y-auto border border-gray-600 p-4 bg-gray-900"
       >
-        {logs.map((log, index) => (
+        {logs.data.map((log, index) => (
           <div key={index} className="mb-2">
             {JSON.stringify(log)}
           </div>

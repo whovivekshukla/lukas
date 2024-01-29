@@ -1,9 +1,8 @@
-// components/MissionDetails.js
-
 import React from "react";
 import Badge from "./BadgeComponent";
+import ReactPlayer from "react-player";
 
-const MissionDetails = ({ missionData }) => {
+const MissionDetails = ({ missionData, logData }) => {
   if (!missionData) {
     return (
       <div className="flex items-center justify-center">
@@ -12,14 +11,7 @@ const MissionDetails = ({ missionData }) => {
     );
   }
 
-  const {
-    status,
-    waypoints,
-    speed,
-    altitude,
-    InspectionTime,
-    // Add more fields as needed
-  } = missionData;
+  const { status, waypoints, speed, altitude, InspectionTime } = missionData;
 
   return (
     <div className="max-w-3xl mx-auto mt-8 p-8 bg-white shadow-lg rounded-md">
@@ -47,24 +39,30 @@ const MissionDetails = ({ missionData }) => {
         </div>
       </div>
 
-      <div className="mt-6">
-        <h3 className="text-lg font-semibold mb-2">Waypoints:</h3>
-        <div className="max-h-32 overflow-y-auto">
-          {/* <p>{JSON.stringify(waypoints)}</p> */}
-          {waypoints.map((data, index) => (
-            <div key={index}>
-              {Object.entries(data).map(([key, value]) => (
-                <p key={key}>
-                  {key}: {JSON.stringify(value)}
-                </p>
-              ))}
-              <p>.................</p>
-            </div>
+      <div className="mt-6 grid grid-cols-2 gap-4">
+        <div>
+          <h3 className="text-lg font-semibold mb-2">Waypoints:</h3>
+          <div className="max-h-32 overflow-y-auto">
+            {waypoints.map((data, index) => (
+              <div key={index}>
+                {Object.entries(data).map(([key, value]) => (
+                  <p key={key}>
+                    {key}: {JSON.stringify(value)}
+                  </p>
+                ))}
+                <p>.................</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div>
+          <h3 className="text-lg font-semibold mb-2">Video Objects:</h3>
+          {logData.videoObjectDetectionData.map((videoObject, index) => (
+            <span key={index}>{videoObject}, </span>
           ))}
         </div>
       </div>
-
-      {/* Add more sections as needed */}
     </div>
   );
 };

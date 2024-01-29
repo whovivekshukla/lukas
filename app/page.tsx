@@ -24,7 +24,7 @@ export default async function Home() {
         <div className="p-2">
           <Link href="/temp-account">
             <button className="text-blue-500">
-              Try out with a temp account!
+              Try out with a demo account!
             </button>
           </Link>
         </div>

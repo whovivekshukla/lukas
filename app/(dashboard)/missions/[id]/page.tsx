@@ -7,6 +7,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
 import { Status } from "@/lib/utils";
+import Video from "@/components/VideoPlayer";
 
 const MissionsPage = ({ params }) => {
   const router = useRouter();
@@ -28,7 +29,7 @@ const MissionsPage = ({ params }) => {
       if (!inspectionLog.log || !inspectionLog.log.data) {
         setLogData(null);
       } else {
-        setLogData(inspectionLog.log.data);
+        setLogData(inspectionLog.log);
       }
     } catch (error) {
       console.error(error);
@@ -67,12 +68,17 @@ const MissionsPage = ({ params }) => {
             )}
           </div>
           <div>
-            <MissionDetails missionData={currentMission} />
+            <MissionDetails missionData={currentMission} logData={logData} />
           </div>
           <div>
             {logData ? (
-              <div>
-                <Terminal logs={logData} />
+              <div className="flex flex-col lg:flex-row lg:items-center">
+                <div className="flex-1 lg:mr-4">
+                  <Terminal logs={logData} />
+                </div>
+                <div className="flex-1 flex items-center justify-center mt-4 lg:mt-0">
+                  <Video videoUrl={logData.videoURL} />
+                </div>
               </div>
             ) : (
               <div></div>
