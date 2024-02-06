@@ -9,8 +9,8 @@ export default function SignInForm() {
 
   // start the sign In process.
   const handleSubmit = async () => {
-    const emailAddress = "lukas.temp@vshukla.com";
-    const password = "secret";
+    const emailAddress = process.env.NEXT_PUBLIC_LUKAS_TEMP_ACCOUNT_EMAIL;
+    const password = process.env.NEXT_PUBLIC_LUKAS_TEMP_ACCOUNT_PASSWORD;
     if (!isLoaded) {
       return;
     }

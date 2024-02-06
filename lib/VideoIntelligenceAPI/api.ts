@@ -2,6 +2,8 @@ const keyFilename = "C://Users/vivek//Desktop/lukas-412609-4be886ea6fc0.json";
 
 import Video from "@google-cloud/video-intelligence";
 
+// export const 
+
 export async function analyzeVideo() {
   // Imports the Google Cloud Video Intelligence library
   const result: any = [];
