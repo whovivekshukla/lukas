@@ -7,7 +7,7 @@ export default authMiddleware({
     if (!auth.userId && !auth.isPublicRoute) {
       return redirectToSignIn({ returnBackUrl: req.url });
     }
-    if (auth.userId === "user_2bWyl83Oam3PoCgsrUAMsFFZOZI") {
+    if (auth.userId === process.env.NEXT_PUBLIC_LUKAS_TEMP_ACCOUNT_ID) {
       if (
         req.method === "POST" ||
         req.method === "PATCH" ||
