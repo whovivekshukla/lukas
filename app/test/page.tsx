@@ -15,10 +15,10 @@ const TestPage = async () => {
   //   destinationFileName
   // );
 
-  const gsLink = "gs://lukas-demo-video/test-video";
+  // const gsLink = "gs://lukas-demo-video/test-video";
 
-   const videoAnalysis = await analyzeVideo(gsLink);
-  console.log(videoAnalysis)
+  //  const videoAnalysis = await analyzeVideo(gsLink);
+  // console.log(videoAnalysis)
   return <div>TestPage</div>;
 };
 export default TestPage;
