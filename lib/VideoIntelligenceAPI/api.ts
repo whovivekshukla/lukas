@@ -2,37 +2,67 @@ const keyFilename = "C://Users/vivek//Desktop/lukas-412609-4be886ea6fc0.json";
 
 import Video from "@google-cloud/video-intelligence";
 
-// export const 
-
-export async function analyzeVideo() {
-  // Imports the Google Cloud Video Intelligence library
-  const result: any = [];
-  // Creates a client
+export async function analyzeVideo(
+  gcsUri,
+  features = ["OBJECT_TRACKING"],
+  locationId = "us-east1"
+) {
+  const result = new Set();
   const video = new Video.VideoIntelligenceServiceClient({ keyFilename });
-
-  /**
-   * TODO(developer): Uncomment the following line before running the sample.
-   */
-  const gcsUri = "gs://lukas-demo-video/demo.mp4";
 
   const request = {
     inputUri: gcsUri,
-    features: ["OBJECT_TRACKING"],
-    //recommended to use us-east1 for the best latency due to different types of processors used in this region and others
-    locationId: "us-east1",
+    features,
+    locationId,
   };
-  // Detects objects in a video
-  const [operation] = await video.annotateVideo(request);
-  const results = await operation.promise();
-  console.log("Waiting for operation to complete...");
-  //Gets annotations for video
-  const annotations = results[0].annotationResults[0];
-  const objects = annotations.objectAnnotations;
-  objects.forEach((object) => {
-    result.push(object.entity.description);
-  });
-  return result;
+
+  try {
+    const [operation] = await video.annotateVideo(request);
+    const results = await operation.promise();
+    console.log("Waiting for operation to complete...");
+
+    const annotations = results[0].annotationResults[0];
+    const objects = annotations.objectAnnotations;
+    objects.forEach((object) => {
+      result.add(object.entity.description);
+    });
+
+    return Array.from(result);
+  } catch (error) {
+    console.error("Error analyzing video:", error.message);
+    throw error;
+  }
 }
 
-// Call the function to analyze the video
-// analyzeVideo();
+const axios = require("axios");
+const { Storage } = require("@google-cloud/storage");
+
+// Google Cloud Storage credentials
+const storage = new Storage({
+  projectId: "lukas-412609",
+  keyFilename,
+});
+
+export async function saveVideoToStorage(
+  endpoint,
+  bucketName,
+  destinationFileName
+) {
+  try {
+    const response = await axios.get(endpoint, { responseType: "arraybuffer" });
+
+    const bucket = storage.bucket(bucketName);
+    const file = bucket.file(destinationFileName);
+
+    await file.save(response.data, {
+      metadata: {
+        contentType: "video/mp4",
+      },
+    });
+
+    const gsLink = `gs://${bucketName}/${destinationFileName}`;
+    return gsLink;
+  } catch (error) {
+    console.error("Error saving video:", error.message);
+  }
+}
