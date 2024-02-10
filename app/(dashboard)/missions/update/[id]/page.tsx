@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
 import { Status } from "@/lib/utils";
+import DateTimeComponent from "@/components/DateTimeComponent";
 
 const UpdateMissionsPage = ({ params }) => {
   const router = useRouter();
@@ -45,8 +46,6 @@ const UpdateMissionsPage = ({ params }) => {
         name: mission.name,
         status: mission.status,
         waypoints: mission.waypoints,
-        altitude: mission.altitude,
-        speed: mission.speed,
         InspectionTime: new Date(mission.InspectionTime),
       });
       setLoading(false);
@@ -71,8 +70,6 @@ const UpdateMissionsPage = ({ params }) => {
         name: e.target.name.value,
         status: missionData.status,
         waypoints: JSON.parse(e.target.waypoints.value),
-        altitude: parseInt(e.target.altitude.value),
-        speed: parseInt(e.target.speed.value),
         InspectionTime: new Date(e.target.InspectionTime.value).toISOString(),
       };
 
@@ -131,27 +128,10 @@ const UpdateMissionsPage = ({ params }) => {
               value={missionData.waypoints}
               name={"waypoints"}
             />
-            <InputComponent
-              labelName={"Altitude:"}
-              type={"number"}
-              name={"altitude"}
-              value={missionData.altitude}
+            <DateTimeComponent
+              labelName={"Inspection Time:"}
+              name={"InspectionTime"}
             />
-            <InputComponent
-              labelName={"Speed:"}
-              value={missionData.speed}
-              type={"number"}
-              name={"speed"}
-            />
-            <label className="label cursor-pointer form-control w-full max-w-xs">
-              <input
-                type="datetime-local"
-                step={1}
-                name="InspectionTime"
-                className="input input-bordered input-primary"
-                required
-              />
-            </label>
 
             <div className="mt-4">
               <ButtonComponent

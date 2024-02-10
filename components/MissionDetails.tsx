@@ -11,7 +11,7 @@ const MissionDetails = ({ missionData, logData }) => {
     );
   }
 
-  const { status, waypoints, speed, altitude, InspectionTime } = missionData;
+  const { status, waypoints, InspectionTime } = missionData;
 
   return (
     <div className="max-w-3xl mx-auto mt-8 p-8 bg-white shadow-lg rounded-md">

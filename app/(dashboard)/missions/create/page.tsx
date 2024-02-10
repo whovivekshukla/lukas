@@ -9,6 +9,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useRouter } from "next/navigation";
+import DateTimeInputComponent from "@/components/DateTimeComponent";
 
 const CreateMissionsPage = () => {
   const router = useRouter();
@@ -37,8 +38,6 @@ const CreateMissionsPage = () => {
       const mission = {
         name: e.target.name.value,
         waypoints: JSON.parse(e.target.waypoints.value),
-        altitude: parseInt(e.target.altitude.value),
-        speed: parseInt(e.target.speed.value),
         InspectionTime: inspectionTimeCheck,
       };
 
@@ -87,22 +86,11 @@ const CreateMissionsPage = () => {
             value={MissionWayPointExample}
             name={"waypoints"}
           />
-          <InputComponent
-            labelName={"Altitude:"}
-            type={"number"}
-            name={"altitude"}
+
+          <DateTimeInputComponent
+            labelName={"Inspection Time:"}
+            name={"InspectionTime"}
           />
-          <InputComponent labelName={"Speed:"} type={"number"} name={"speed"} />
-          <label className="label cursor-pointer form-control w-full max-w-xs">
-            <input
-              type="datetime-local"
-              step={1}
-              name="InspectionTime"
-              className="input input-bordered input-primary"
-              // defaultValue={new Date().toLocaleString()}
-              required
-            />
-          </label>
           <div className="mt-4">
             <ButtonComponent disabled={loading} label={"Submit"} />
           </div>

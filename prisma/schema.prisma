@@ -36,8 +36,6 @@ model Mission {
   name           String
   status         Status          @default(pending)
   waypoints      Json
-  altitude       Int
-  speed          Int
   InspectionTime DateTime
   cronJobId      Int?
   cronJobToken  String?

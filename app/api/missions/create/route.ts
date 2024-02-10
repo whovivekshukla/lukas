@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { MissionValidation } from "@/lib/validation";
 import { createCronJob } from "@/lib/CronJobAPIs/api";
-import { changedDateFormat, generateScheduleProperty } from "@/lib/utils";
+import { generateScheduleProperty } from "@/lib/utils";
 import { v4 as uuidv4 } from "uuid";
 
 export const POST = async (request: Request) => {
