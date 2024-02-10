@@ -6,7 +6,6 @@ Lukas is an innovative drone inspection automation software designed to streamli
 
 ## Features
 
-
 - **NextJS Framework:** Built on the NextJS framework, Lukas ensures a fast, responsive, and SEO-friendly web application for an optimal user experience.
 
 - **Prisma Database Integration:** Utilizing Prisma as the database ORM, Lukas ensures reliable and efficient data storage and retrieval.
@@ -19,10 +18,10 @@ Lukas is an innovative drone inspection automation software designed to streamli
 
 - **cron-job.org:** Lukas utilizes cron-job.org for scheduled tasks and automated processes, enabling users to set up routine inspections.
 
-- **Google Cloud Intelligense:**  Leveraging Google Cloud Intelligence services, Lukas enhances its capabilities in image recognition, data analysis, and machine learning. This integration allows for advanced data interpretation during drone inspections, enabling users to gain valuable insights from captured images and sensor data.
+- **Google Cloud Intelligense:** Leveraging Google Cloud Intelligence services, Lukas enhances its capabilities in image recognition, data analysis, and machine learning. This integration allows for advanced data interpretation during drone inspections, enabling users to gain valuable insights from captured images and sensor data.
 
-- **Zod:**  Zod, a powerful schema declaration library for JavaScript, is employed in Lukas for data validation. This ensures that the data input into the system adheres to predefined rules and structures, maintaining data integrity and accuracy.
+- **Resend for Email:** Lukas uses Resend to send alert emails when intruders are detected during an inspection.
+
+- **Zod:** Zod, a powerful schema declaration library for JavaScript, is employed in Lukas for data validation. This ensures that the data input into the system adheres to predefined rules and structures, maintaining data integrity and accuracy.
 
 - **FlytBase APIs Integration:** By integrating FlytBase APIs, Fly connects seamlessly with drone hardware, allowing for real-time data exchange and control during inspections.
-
-
