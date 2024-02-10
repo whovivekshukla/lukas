@@ -21,12 +21,7 @@ const MissionDetails = ({ missionData, logData }) => {
         <div>
           <strong className="">Status: </strong> {<Badge status={status} />}
         </div>
-        <div>
-          <strong>Speed:</strong> {speed} km/h
-        </div>
-        <div>
-          <strong>Altitude:</strong> {altitude} meters
-        </div>
+
         <div>
           <strong>Inspection Time:</strong>{" "}
           {new Date(InspectionTime).toLocaleDateString("en-US", {

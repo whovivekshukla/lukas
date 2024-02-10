@@ -11,8 +11,19 @@ const MissionCard = ({ mission, onDelete }) => {
         <p className="text-gray-600 font-bold mr-2">Status:</p>
         {<Badge status={mission.status} />}
       </div>
-      <p className="text-gray-600">Altitude: {mission.altitude}</p>
-      <p className="text-gray-600">Speed: {mission.speed}</p>
+      <p className="text-gray-600 font-bold">
+        Inspection Time: 
+        <span className="font-normal">
+
+          {new Date(mission.InspectionTime).toLocaleDateString("en-US", {
+            day: "numeric",
+            month: "short",
+            year: "numeric",
+            hour: "numeric",
+            minute: "numeric",
+          })}
+        </span>
+      </p>
       <div className="mt-4 flex items-center justify-between">
         <span className="text-sm text-gray-500">
           {new Date(mission.createdAt).toLocaleDateString("en-US", {
